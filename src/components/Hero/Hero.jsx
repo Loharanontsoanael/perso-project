@@ -6,10 +6,10 @@ const Hero = () => {
   return (
     <div className="grid grid-cols-2">
       <div className="mt-48">
-        <p className=" text-dimWhite text-[18px] leading-[30.8px] pl-[65px] ">
+        <p className=" text-dimWhite font-mona text-[18px] leading-[30.8px] pl-[65px] ">
           ENGIN LOCATION
         </p>
-        <h1 className="font-bold text-[50px] pl-[60px]">
+        <h1 className="font-bold text-[50px] font-mona pl-[60px]">
           ALL OF US BUILD UP
           <br />
           HOUSE WITH GOOD MATERIALS

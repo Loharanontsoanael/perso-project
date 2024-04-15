@@ -67,6 +67,14 @@ html {
   background-color: rgba(18, 18, 41, 0.696);
 }
 
+.flex-wrap{
+  padding: 0 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-wrap: nowrap; */
+}
+
 .wrapping{
   display: flex;
   flex-direction: column;
@@ -97,7 +105,7 @@ html {
   display: flex;
   flex-direction: column;
   padding: 0 5%;
-  /* height: 100%; */
+  height: 100%;
 }
 
 .SearchContainer{
@@ -117,8 +125,9 @@ html {
   padding: 5px 15px;
   background: none;
   border: none;
-  border-bottom: rgb(158, 157, 157) 2px solid ;
+  border-bottom: rgb(158, 157, 157) .5px solid ;
   width: 180px;
+  margin-right: 10px;
 }
 .SearchInput:focus{
   outline: none;
@@ -153,7 +162,7 @@ html {
 
 .CardMain{
   width: 300px;
-  height: 359px;
+  min-height: 120px;
   cursor: pointer;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.091);
@@ -245,3 +254,203 @@ html {
   visibility: hidden;
 }
 
+
+
+
+
+
+.MainCartContainer{
+  padding: 0 5%;
+  padding-top: 2%;
+  /* min-width: 750px; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
+}
+
+.CartItemsContainer{
+  /* flex: 1 1 0; */
+  /* background-color: rgb(145, 107, 57); */
+  width: 65%;
+  height: 100% ;
+  overflow-y: auto;
+  padding: 0 3%;
+}
+
+
+.CartItemsTitle{
+  /* background-color: aliceblue; */
+  /* display: flex;
+  justify-content: center; */
+  padding-left: 5%;
+  font-size: 22px;
+  padding-bottom: 1.5% ;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+}
+
+.CartItems{
+  background-color: rgba(255, 255, 255, 0.091);
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 2% 5%;
+  border-radius: 20px ;
+  min-height: 90px;
+}
+
+
+.CartSummaryContainer{
+  flex: 1 1 0;
+  padding-left: 5%;
+  /* width: 40%; */
+  /* background-color: cadetblue; */
+}
+
+.SummaryContent{
+  /* background-color: aqua; */
+  width: 100%;
+  height: 100%;
+  /* min-width: 250px; */
+}
+
+.SummaryCorpse{
+  /* height: 100%; */
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.SummaryInfo{
+  margin: 25px 0;
+  font-size: 18px;
+}
+
+.flex-spcbtwn{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* flex-wrap: wrap; */
+  margin-bottom: 12px;
+}
+
+.SummaryButtons{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.SummaryValue{
+  color: rgba(253, 253, 253, 0.664);
+  font-weight: 300;
+  max-width: 200px;
+  text-align:end;
+}
+
+.SummaryValidate{
+  width: 40%;
+  border-radius: 40px;
+  background-color: rgba(255, 255, 255, 0.911);
+  color: rgba(16, 16, 16, 0.836);
+  font-weight: 600;
+}
+
+
+.HzCardMain{
+  /* background-color: red; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between ;
+  flex-wrap: wrap;
+  /* height: 80vh; */
+}
+
+.hzCardDescri{
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+.HzCardItemInfo{
+  display: flex;
+  /* flex-wrap: wrap; */
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+}
+
+.HzCardEngName{
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.845);
+}
+
+.HzCardPrice{
+  color:rgba(226, 226, 226, 0.629);
+  font-size: 16px;
+  font-weight: 400;
+  width: 30%;
+}
+
+.HzCardDetails{
+  padding-left: 5%;
+  color:rgba(226, 226, 226, 0.858);
+}
+
+.HzCardButtons{
+  flex: 1 1 0;
+  /* height: 100%; */
+  padding: 1% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:700px){
+  .MainCartContainer{
+    /* display: none; */
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .CartSummaryContainer{
+    padding-left: 0;
+    width: 60%;
+  }
+
+  .SummaryContent{
+    min-width: none !important;
+    width: 100%;
+    padding-top: 3%;
+  }
+
+  .SummaryInfo{
+    margin: 10px 0;
+  }
+  
+  .HzCardButtons{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+}

@@ -32,7 +32,7 @@ function Navbar() {
           ))}
         </ul>
 
-        <ul className="list-none flex-row">
+        <ul className="list-none flex-row flex-wrap">
           <NavLink to='/Login'>
             <p className="text-white dark pr-5">Login</p>
           </NavLink>

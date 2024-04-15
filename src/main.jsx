@@ -3,15 +3,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {NextUIProvider} from '@nextui-org/react'
 import App from './App'
-import './index.css'
-import { BrowserRouter } from 'react-router-dom'
+import './styles/index.css'
+import { BrowserRouter, RouterProvider } from 'react-router-dom'
+import Router from './Router'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider> 
-      <BrowserRouter>
-      <App />
-      </BrowserRouter>
+      <RouterProvider router={Router} />
     </NextUIProvider>
   </React.StrictMode>,
 )

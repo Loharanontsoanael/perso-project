@@ -27,3 +27,20 @@ export const navLinks = [
 ];
 
 
+export const navLinksAdmin =[
+  {
+    id: "Products",
+    title: "Products",
+    direction : '/ProductsAdmin'
+  },
+  {
+    id: "Request",
+    title: "Request",
+    direction : '/Request'
+  },
+  {
+    id: "Rentals",
+    title: "Rentals",
+    direction: '/RentalsAdmin'
+  },
+]

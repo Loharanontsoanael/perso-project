@@ -397,6 +397,9 @@ html {
   font-size: 16px;
   font-weight: 400;
   width: 30%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
 .HzCardDetails{
@@ -413,7 +416,21 @@ html {
   justify-content: center;
 }
 
+.RentalsMainContainer{
+  width: 100%;
+  height: 100%;
+  padding-top: 3%;
+  /* background-color: red; */
+  display: flex;
+  justify-content: center;
+}
 
+.RentalsContentContainer{
+  width: 60%;
+  height: 100%;
+  /* background-color: aqua; */
+
+}
 
 
 

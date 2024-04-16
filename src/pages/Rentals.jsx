@@ -1,8 +1,13 @@
 import React from 'react'
+import HorizontalCard from '../components/Cards/HorizontalCard'
 
 function Rentals() {
   return (
-    <div>Rentals</div>
+    <>
+      <div>
+        <HorizontalCard/>
+      </div>
+    </>
   )
 }
 

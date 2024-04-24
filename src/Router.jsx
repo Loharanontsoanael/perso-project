@@ -5,7 +5,6 @@ import Products from './pages/Products'
 import Cart from './pages/Cart'
 import Rentals from './pages/Rentals'
 import Entry from "./Entry";
-import Login from "./pages/Login";
 
 const Router = createBrowserRouter([
     {
@@ -28,19 +27,31 @@ const Router = createBrowserRouter([
                 path:"/Rentals",
                 element:<Rentals/>
             },
+            {
+                path:"/ProductsAdmin",
+                element:<Products/>
+            },
+            {
+                path:"/RentalsAdmin",
+                element:<Rentals/>
+            },
+            {
+                path:"/Requests",
+                element:<Rentals/>
+            },
         ]
     },
 
-    {
-        path: "/",
-        element:<Entry/>,
-        children:[
-            {
-                path:"/Login",
-                element:<Login/>
-            }
-        ]
-    }
+    // {
+    //     path: "/",
+    //     element:<Entry/>,
+    //     children:[
+    //         {
+    //             path:"/Login",
+    //             element:<Login/>
+    //         }
+    //     ]
+    // }
 ])
 
 export default Router

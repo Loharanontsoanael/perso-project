@@ -1,12 +1,14 @@
-import React from 'react'
+import { Button } from '@nextui-org/react'
+import React, { useState } from 'react'
 
-function Card({Name , Price , Stock}) {
+function Card({Name , Price , Stock , CurrentUser ,CurrentPage}) {
+
   return (
     <>
         <div className='CardMain'>
-            <div className='CardPicContainer'>
+            {/* <div className='CardPicContainer'>
                 sary
-            </div>
+            </div> */}
 
             <div className='CardName'>
                 <p>
@@ -27,12 +29,22 @@ function Card({Name , Price , Stock}) {
                 <div className='CardStock'>
                     Quantity:
                     <div className='Stock'>
-                        <p className='StockNumber'> 
+                        <p className='StockNumber'>
                             {Stock}
                         </p>
                     </div>
                 </div>
             </div>
+
+            {
+                (CurrentPage=='ProductsAdmin' || CurrentUser=='Admin')?
+                    <div className='CardButtons'>
+                        <Button>Edit</Button>
+                        <Button>Delete</Button>
+                    </div>
+                :
+                    <></>
+            }
 
         </div>
     </>

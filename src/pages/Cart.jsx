@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HorizontalCard from '../components/Cards/HorizontalCard'
 import { Button } from '@nextui-org/react'
+import { MainData } from '../context/MainContext'
 
 function Cart() {
+
+  const{CurrentPage ,CurrentUser }=MainData()
+
+  const [renter , setRenter] = useState(null)
+
   return (
     <>
       <div className='MainCartContainer'>
@@ -13,36 +19,22 @@ function Cart() {
             <p>Items </p>
           </div>
 
+          <p>
+            {CurrentPage}
+          </p>
           <div className='CartItems'>
-            <HorizontalCard />
+            <HorizontalCard CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
           </div>
           <div className='CartItems'>
-            <HorizontalCard />
+            <HorizontalCard CurrentPage={CurrentPage} />
           </div>
           <div className='CartItems'>
-            <HorizontalCard />
+            <HorizontalCard CurrentPage={CurrentPage} />
           </div>
           <div className='CartItems'>
-            <HorizontalCard />
+            <HorizontalCard CurrentPage={CurrentPage} />
           </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard />
-          </div>
+
 
 
         </div>
@@ -64,7 +56,14 @@ function Cart() {
 
                 <div className='flex-spcbtwn'>
                   <p>Renter </p>
-                  <p className='SummaryValue'> JOJO BIzzare</p>
+                  <p className='SummaryValue'> 
+                    {
+                      renter? 
+                       renter
+                      :
+                       "----"
+                    }
+                  </p>
                 </div>
 
                 <div className='flex-spcbtwn'>

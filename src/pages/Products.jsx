@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import Card from '../components/Cards/Card';
 import Search from '../components/search/Search';
+import { MainData } from '../context/MainContext';
 
 function Products() {
+
+  // const {tests} =MainData()
+
+  const{CurrentPage , CurrentUser}=MainData()
   
   const [test, setTest] = useState([
     {
@@ -24,6 +29,34 @@ function Products() {
       Name:"Tracteur",
       Price:"1900",
       Stock:"12"
+    },    {
+      Name:"Grue",
+      Price:"1500",
+      Stock:"9"
+    },
+    {
+      Name:"Elevator g500 adsd",
+      Price:"1700",
+      Stock:"6"
+    },
+    {
+      Name:"Tracteur",
+      Price:"1900",
+      Stock:"12"
+    },    {
+      Name:"Grue",
+      Price:"1500",
+      Stock:"9"
+    },
+    {
+      Name:"Elevator",
+      Price:"1700",
+      Stock:"6"
+    },
+    {
+      Name:"Tracteur",
+      Price:"1900",
+      Stock:"12"
     },
   ]);
 
@@ -32,14 +65,27 @@ function Products() {
       <div className='MainProdContainer'>
         <div className='SearchContainer dark'>
           <Search/>
+          <p>
+            {CurrentPage}
+          </p>
         </div>
 
         <div className='ProdContentContainer'>
           <div className='ProdContent'>
             {
+              (CurrentPage=="ProductsAdmin" || CurrentUser=='Admin')?
+                <div className='Product'>
+                  <p className='CardMain' id='CardMainAdd'>
+                    +
+                  </p>
+                </div>
+              :
+                <></>
+            }
+            {
               test.map((items , i)=>(
               <div className='Product' key={i}>
-                <Card Name={items.Name} Price={items.Price} Stock={items.Stock} />
+                <Card Name={items.Name} Price={items.Price} Stock={items.Stock} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
               </div>
               ))
             }

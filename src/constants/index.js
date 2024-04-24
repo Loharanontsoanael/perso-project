@@ -29,17 +29,17 @@ export const navLinks = [
 
 export const navLinksAdmin =[
   {
-    id: "Products",
+    id: "ProductsAdmin",
     title: "Products",
     direction : '/ProductsAdmin'
   },
   {
     id: "Request",
     title: "Request",
-    direction : '/Request'
+    direction : '/Requests'
   },
   {
-    id: "Rentals",
+    id: "RentalsAdmin",
     title: "Rentals",
     direction: '/RentalsAdmin'
   },

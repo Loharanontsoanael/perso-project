@@ -171,6 +171,15 @@ html {
   align-items: center;
   padding: 20px 20px;
 }
+
+#CardMainAdd{
+  font-size: 100px;
+  color: rgba(240, 248, 255, 0.657);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .CardMain:hover{
   background-color: rgba(255, 255, 255, 0.153);
 
@@ -198,6 +207,7 @@ html {
   overflow-y: auto;
   column-count: auto;
   break-inside: avoid-column;
+  text-align: center;
 }
 
 .CardName::-webkit-scrollbar{
@@ -248,6 +258,13 @@ html {
 }
 .StockNumber{
   text-align: center;
+}
+.CardButtons{
+  margin-top: 12px;
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 ::-webkit-scrollbar{
@@ -413,7 +430,7 @@ html {
   padding: 1% 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .RentalsMainContainer{
@@ -432,7 +449,23 @@ html {
 
 }
 
+.PopUp{
+  display:none;
+  transition:2s;
+}
 
+.PopUpWrapper{
+  background-color: #1010106e;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 

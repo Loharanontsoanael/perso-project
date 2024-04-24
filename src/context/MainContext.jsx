@@ -20,7 +20,7 @@ export const MainProvider =({children})=>{
         <MainContext.Provider value={{
             CurrentUser,
             setCurrentUser,
-            CurrentPage,
+            CurrentPage, 
             setCurrentPage
          }}>
             {children}

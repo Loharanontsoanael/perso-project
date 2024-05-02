@@ -7,10 +7,13 @@ import './styles/index.css'
 import { BrowserRouter, RouterProvider } from 'react-router-dom'
 import Router from './Router'
 import { MainProvider } from './context/MainContext'
+import axios from 'axios'
+
+axios.defaults.withCredentials = true
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <NextUIProvider> 
+    <NextUIProvider>
       <MainProvider>
         <RouterProvider router={Router} />
       </MainProvider>

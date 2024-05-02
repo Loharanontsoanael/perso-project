@@ -6,9 +6,9 @@ function Card({Name , Price , Stock , CurrentUser ,CurrentPage}) {
   return (
     <>
         <div className='CardMain'>
-            {/* <div className='CardPicContainer'>
+            <div className='CardPicContainer'>
                 sary
-            </div> */}
+            </div>
 
             <div className='CardName'>
                 <p>

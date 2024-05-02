@@ -13,7 +13,7 @@ function Rentals() {
           {/* <div className='RentalContent'>
           </div> */}
           <p>
-            {CurrentPage}
+            {CurrentUser}
           </p>
           <div className='CartItems'>
             <HorizontalCard CurrentPage={CurrentPage} CurrentUser={CurrentUser} />

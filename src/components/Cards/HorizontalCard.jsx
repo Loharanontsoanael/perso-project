@@ -1,8 +1,9 @@
 import { Button } from '@nextui-org/react'
 import React, { useState } from 'react'
+import { MainData } from '../../context/MainContext'
 
-function HorizontalCard({CurrentPage , CurrentUser}) {
-  
+function HorizontalCard() {
+  const {CurrentPage,CurrentUser}=MainData()
   
     return (
         <>

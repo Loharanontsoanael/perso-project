@@ -25,10 +25,14 @@ const Hero = () => {
         </p>
 
         <Link to='/Products'>
-          <Button className="rounded-[2rem] px-8 ml-[60px] mt-8 bg-btn " navigate>
+          {/* <Button className="rounded-[2rem] px-8 ml-[60px] mt-8 bg-btn ">
               Get Started
             <img src={arrow_right} className="w-[23px] h-[23x] object-contain" alt="arrow"/>
-          </Button>
+          </Button> */}
+          <button className="rounded-[2rem] px-8 ml-[60px] mt-8 disp-flex-row bg-btn getstarted">
+            Get Started
+            <img src={arrow_right} className="w-[23px] h-[23x] object-contain" alt="arrow"/>
+          </button>
         </Link>
 
       </div>

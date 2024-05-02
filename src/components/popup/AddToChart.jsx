@@ -1,10 +1,10 @@
 import React from 'react'
 
-function Register() {
+function AddToChart() {
   return (
     <>
     </>
   )
 }
 
-export default Register
+export default AddToChart

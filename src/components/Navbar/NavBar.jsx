@@ -4,12 +4,33 @@ import { Button } from "@nextui-org/button";
 import { styles } from "../../styles/styles";
 import { navLinks, navLinksAdmin } from "../../constants";
 import { useState } from "react";
+import { MainData } from "../../context/MainContext";
+import { useEffect } from "react";
+import { User } from "@nextui-org/react";
 
 
-function Navbar({CurrentUser , setCurrentPage}) {
+function Navbar() {
 
-  const [navLink , setNavlink] = useState(CurrentUser=='Admin'?navLinksAdmin : navLinks)
+  const {
+    CurrentUser ,
+    CurrentPage ,
+    isLogged,
+    setCurrentUser ,
+    setCurrentPage ,
+    ShowLogin,
+    ShowRegister,
+    Logout
+  } = MainData()
 
+  const [navLink , setNavlink] = useState([])
+
+  useEffect(()=>{
+    if(CurrentUser=="Admin"){
+      setNavlink(navLinksAdmin)
+    }else{
+      setNavlink(navLinks)
+    }
+  } , [CurrentUser])
 
   return (
     <nav
@@ -37,12 +58,23 @@ function Navbar({CurrentUser , setCurrentPage}) {
           ))}
         </ul>
 
-        <ul className="list-none flex-row flex-wrap">
-          <p className="text-white dark pr-5 cursor-pointer">Login</p>
-          <Button className="rounded-[2rem] px-10 bg-btn ">Register</Button>
-        </ul>
-       
-       
+        {
+          !isLogged &&
+            <ul className="list-none flex-row flex-wrap">
+              <p className="text-white dark pr-5 cursor-pointer" onClick={()=>{ShowLogin()}} >Login</p>
+              <Button className="rounded-[2rem] px-10 bg-btn " onClick={()=>{ShowRegister()}}>Register</Button>
+            </ul>
+          || isLogged &&
+            <div className="NavBarUserContainer ">
+              <div>
+                <User name={CurrentUser} avatarProps={{ name:'' }}  className="UserInfo"/>
+              </div>
+              <div>
+                <Button onClick={Logout}>Logout</Button>
+              </div>
+            </div>
+        }
+  
       </div>
     </nav>
   );

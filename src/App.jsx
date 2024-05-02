@@ -1,17 +1,49 @@
 import * as React from "react";
-import { Button } from "@nextui-org/button";
+import { useEffect, useRef, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./components/Navbar/NavBar";
-import { Outlet } from "react-router-dom";
-import { MainData } from "./context/MainContext";
 import PopUpWrapper from "./components/popup/PopUpWrapper";
+import { MainData } from "./context/MainContext";
+import axios, { Axios } from "axios";
 
 function App() {
+  const navigate = useNavigate()
+  const{
+    CurrentUser ,
+    CurrentPage ,
+    setCurrentPage,
+    IsPopUp,
+    setIsPopUp,
+  }=MainData()
+  const refPopUp = useRef('')
 
-  const{CurrentUser ,CurrentPage , setCurrentPage}=MainData()
+  useEffect(() => {
+    if(CurrentUser=="Admin"){
+      navigate("/ProductsAdmin")
+    }else if(CurrentUser==""){
+      navigate("/")
+    } else{
+      console.log(CurrentUser);
+      console.log("normal user");
+    }
+  }, [CurrentUser]);
 
+
+  useEffect(()=>{
+    document.addEventListener("click" , handlePopUp , true)
+  } , [])
+  
+  const handlePopUp=(e)=>{
+    if(refPopUp.current && !refPopUp.current.contains(e.target)){
+      setIsPopUp(false)
+      console.log("test");
+    }
+  }
+
+  
   return (
     <>
-      <div className="dark font-mona  h-screen w-screen relative z-0 h-all"> 
+      <div className="dark font-mona  h-screen w-screen relative z-0 h-all">
         <div className="wrapping">
           <div>
             <NavBar CurrentUser={CurrentUser} setCurrentPage={setCurrentPage} />
@@ -21,10 +53,12 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="PopUp">
-          <PopUpWrapper />
-      </div>
-
+      {
+        IsPopUp &&
+        <div className="PopUp">
+          <PopUpWrapper refPopUp={refPopUp} />
+        </div>
+      }
     </>
   );
 }

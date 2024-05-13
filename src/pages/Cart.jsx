@@ -16,7 +16,7 @@ function Cart() {
         <div className='CartItemsContainer'>
 
           <div className='CartItemsTitle dark'>
-            <p>Items </p>
+            <p> </p>
           </div>
 
           <p>

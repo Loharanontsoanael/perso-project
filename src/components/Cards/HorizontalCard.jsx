@@ -20,7 +20,7 @@ function HorizontalCard() {
                             :
                                 <></>
                         }
-                        <p>Qantity: 4</p>
+                        <p>Quantity: 4</p>
                         <p>Duration : 4 months</p>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ function HorizontalCard() {
                 <div className='HzCardButtons'>
                     {
                         CurrentUser!=="Admin"?
-                            <Button>
+                            <Button className='mr-2'>
                                 edit
                             </Button>
                         :

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { Socket , io } from 'socket.io-client'
 
 const MainContext = createContext({
   CurrentUser: "",
@@ -24,6 +25,8 @@ const MainContext = createContext({
 });
 
 export const MainProvider = ({ children }) => {
+  const socket = io("http://localhost:8081/");
+
   const [CurrentUser, setCurrentUser] = useState("");
   const [CurrentPage, setCurrentPage] = useState("");
   const [IsPopUp, setIsPopUp] = useState(false);
@@ -128,7 +131,7 @@ export const MainProvider = ({ children }) => {
         alert(res.data.Message);
       })
       .catch((err) => {
-        // console.log(res.data.Message);
+        console.log(res.data.Message);
         alert("Error");
       });
   };
@@ -144,11 +147,24 @@ export const MainProvider = ({ children }) => {
       });
   };
 
+  const getEngineOnRealTime = () => {
+    socket.on('newEngine' , (newEngine)=>{
+        // console.log(newEngine);
+        // setEngine((prevEngine)=>[...prevEngine,newEngine])
+        getEngine()
+    })
+  };
+
   useEffect(() => {
     cookieHandling();
-    getEngine()
+    getEngine();
+    getEngineOnRealTime()
     console.log(isLogged);
-  }, []);
+    return ()=>{
+        socket.off();
+    }
+}, []);
+
 
   return (
     <MainContext.Provider

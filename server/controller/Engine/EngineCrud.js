@@ -16,12 +16,12 @@ const newEngine = (req,res)=>{
         }
     )
     .then((result)=>{
-        console.log("bien");
+        req.io.emit('newEngine' , result)
         return res.json({Message:"Success"})
     })
     .catch((error)=>{
-        console.log("err");
-        return res.json({Message: "error"})
+        console.log(error);
+        return res.json({Message: 'Error'})
     })
 }
 

@@ -19,7 +19,7 @@ function PopUpWrapper({refPopUp}) {
             (PopUp=="Login"||PopUp=="Register") && <Login /> ||
             // PopUp=="Register" && <Register />
             PopUp=="AddToChart" && <AddToChart/> ||
-            PopUp=="AddProducts" && <AddProducts /> ||
+            PopUp=="New Engine" && <AddProducts /> ||
             PopUp=="EditProducts" && <EditProducts /> ||
             PopUp=="EditChart" && <EditChart /> ||
             PopUp=="EditRentals" && <EditRentals />

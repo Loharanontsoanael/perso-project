@@ -214,8 +214,9 @@ input{
 #CardMainAdd{
   font-size: 100px;
   color: #f0f8ffa8;
-  margin-left: 90px;
-  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .CardMain:hover{
@@ -248,6 +249,8 @@ input{
   padding: 0.3rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 50px 30px -20px;
   transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  padding: 15px 10px;
 }
 
 .card .image-container {

@@ -7,7 +7,11 @@ function Products() {
 
   // const {tests} =MainData()
 
-  const{CurrentPage , CurrentUser}=MainData()
+  const{
+    CurrentPage ,
+    CurrentUser ,
+    ShowAddProduct,
+  }=MainData()
   
   const [test, setTest] = useState([
     {
@@ -31,26 +35,27 @@ function Products() {
     {
       Name:"Tracteur",
       Price:"1900",
-      Stock:"12",
-      Statut:"Avalaible"
-    },    {
+      Stock:"12"
+    },
+    {
       Name:"Grue",
       Price:"1500",
       Stock:"9",
-      Statut:"Avalaible"
+      Statut:"Disabled"
     },
     {
       Name:"Elevator g500 adsd",
       Price:"1700",
       Stock:"6",
-      Statut:"Disabled"
+      Statut:"Avalaible"
     },
     {
       Name:"Tracteur",
       Price:"1900",
       Stock:"12",
-      Statut:"Disabled"
-    },    {
+      Statut:"Avalaible"
+    },
+    {
       Name:"Grue",
       Price:"1500",
       Stock:"9",
@@ -70,20 +75,23 @@ function Products() {
     },
   ]);
 
+
   return (
     <>
       <div className='MainProdContainer'>
         <div className='SearchContainer dark'>
           <Search/>
-        
+          <p>
+            {CurrentPage}
+          </p>
         </div>
 
         <div className='ProdContentContainer'>
           <div className='ProdContent'>
             {
               (CurrentPage=="ProductsAdmin" || CurrentUser=='Admin')?
-                <div className='card ml-20'>
-                  <p className='Content' id='CardMainAdd'>
+                <div className='Product' onClick={ShowAddProduct}>
+                  <p className='card' id='CardMainAdd'>
                     +
                   </p>
                 </div>
@@ -93,7 +101,7 @@ function Products() {
             {
               test.map((items , i)=>(
               <div className='Product' key={i}>
-                <Card Name={items.Name} Price={items.Price} Stock={items.Stock} Statut={items.Statut} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
+                <Card Name={items.Name} Price={items.Price}  Stock={items.Stock} Statut={items.Statut} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
               </div>
               ))
             }

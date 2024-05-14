@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { LoginFunc, RegisterFunc } from "../functions/LoginRegister";
+// import { LoginFunc, RegisterFunc } from "../functions/LoginRegister";
     
 
 const MainContext = createContext({
@@ -12,6 +12,7 @@ const MainContext = createContext({
     PopUpWrapper:()=>{},
     ShowLogin:()=>{},
     ShowRegister:()=>{},
+    ShowAddProduct:()=>{},
     setCurrentPage:()=>{},
     setCurrentUser:()=>{},
     setIsPopUp:()=>{},
@@ -19,6 +20,7 @@ const MainContext = createContext({
     Login :()=>{},
     Register :()=>{},
     Logout:()=>{},
+    AddNewEngine:()=>{},
 })
 
 export const MainProvider =({children})=>{
@@ -42,6 +44,11 @@ export const MainProvider =({children})=>{
     const ShowRegister =()=>{
         PopUpWrapper()
         setPopUp('Register')
+    }
+
+    const ShowAddProduct =()=>{
+        PopUpWrapper()
+        setPopUp('New Engine')
     }
 
     const Login = async(UserName,PassWord)=>{
@@ -101,6 +108,23 @@ export const MainProvider =({children})=>{
         })
     }
 
+    const AddNewEngine =(name,price,quantity)=>{
+        const value ={
+            name:name,
+            price:price,
+            quantity:quantity
+        }
+
+        axios.post('http://localhost:8081/NewEngine', value)
+        .then((res)=>{
+            // console.log(res);
+            alert(res.data.Message)
+        }).catch((err)=>{
+            // console.log(res.data.Message);
+            alert("Error")
+        })
+    }
+
     useEffect(()=>{
         cookieHandling()
         console.log(isLogged);
@@ -119,10 +143,12 @@ export const MainProvider =({children})=>{
             PopUpWrapper,
             ShowLogin,
             ShowRegister,
+            ShowAddProduct,
             Login,
             Register,
             isLogged,
-            Logout
+            Logout,
+            AddNewEngine
          }}>
             {children}
         </MainContext.Provider>

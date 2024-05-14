@@ -7,40 +7,39 @@ import { MainData } from "./context/MainContext";
 import axios, { Axios } from "axios";
 
 function App() {
-  const navigate = useNavigate()
-  const{
-    CurrentUser ,
-    CurrentPage ,
+  const navigate = useNavigate();
+  const {
+    CurrentUser,
+    CurrentPage,
     setCurrentPage,
     IsPopUp,
-    setIsPopUp,
-  }=MainData()
-  const refPopUp = useRef('')
+    setIsPopUp
+  } =MainData();
+  
+    const refPopUp = useRef("");
 
   useEffect(() => {
-    if(CurrentUser=="Admin"){
-      navigate("/ProductsAdmin")
-    }else if(CurrentUser==""){
-      navigate("/")
-    } else{
+    if (CurrentUser == "Admin") {
+      navigate("/ProductsAdmin");
+    } else if (CurrentUser == "") {
+      navigate("/");
+    } else {
       console.log(CurrentUser);
       console.log("normal user");
     }
   }, [CurrentUser]);
 
+  useEffect(() => {
+    document.addEventListener("click", handlePopUp, true);
+  }, []);
 
-  useEffect(()=>{
-    document.addEventListener("click" , handlePopUp , true)
-  } , [])
-  
-  const handlePopUp=(e)=>{
-    if(refPopUp.current && !refPopUp.current.contains(e.target)){
-      setIsPopUp(false)
+  const handlePopUp = (e) => {
+    if (refPopUp.current && !refPopUp.current.contains(e.target)) {
+      setIsPopUp(false);
       console.log("test");
     }
-  }
+  };
 
-  
   return (
     <>
       <div className="dark font-mona  h-screen w-screen relative z-0 h-all">
@@ -53,12 +52,11 @@ function App() {
           </div>
         </div>
       </div>
-      {
-        IsPopUp &&
+      {IsPopUp && (
         <div className="PopUp">
           <PopUpWrapper refPopUp={refPopUp} />
         </div>
-      }
+      )}
     </>
   );
 }

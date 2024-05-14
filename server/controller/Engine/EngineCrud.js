@@ -26,6 +26,29 @@ const newEngine = (req,res)=>{
 }
 
 
+const getEngine = (req,res)=>{
+    Engine.findAll()
+    .then((engine)=>{
+        res.send({engine:engine})
+    })
+    .catch((error)=>{
+        res.send({message:"Error"})
+    })
+}
+
+
+const editEngine = ()=>{
+
+}
+
+
+const deleteEngine = ()=>{
+
+}
+
 module.exports={
-    newEngine
+    newEngine,
+    getEngine,
+    editEngine,
+    deleteEngine
 }

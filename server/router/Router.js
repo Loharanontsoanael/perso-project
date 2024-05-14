@@ -13,5 +13,6 @@ router.get('/logCookie' , AuthController.logCookie)
 
 //Engine
 router.post('/NewEngine' , EngineController.newEngine)
+router.get('/getEngine' , EngineController.getEngine)
 
 module.exports = router ;

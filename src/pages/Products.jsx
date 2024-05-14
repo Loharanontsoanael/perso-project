@@ -11,70 +11,9 @@ function Products() {
     CurrentPage ,
     CurrentUser ,
     ShowAddProduct,
+    engine
   }=MainData()
   
-  const [test, setTest] = useState([
-    {
-      Name:"Camion",
-      Price:"1200",
-      Stock:"4",
-      Statut:"Avalaible"
-    },
-    {
-      Name:"Grue",
-      Price:"1500",
-      Stock:"9",
-      Statut:"Disabled"
-    },
-    {
-      Name:"Elevator",
-      Price:"1700",
-      Stock:"6",
-      Statut:"Disabled"
-    },
-    {
-      Name:"Tracteur",
-      Price:"1900",
-      Stock:"12"
-    },
-    {
-      Name:"Grue",
-      Price:"1500",
-      Stock:"9",
-      Statut:"Disabled"
-    },
-    {
-      Name:"Elevator g500 adsd",
-      Price:"1700",
-      Stock:"6",
-      Statut:"Avalaible"
-    },
-    {
-      Name:"Tracteur",
-      Price:"1900",
-      Stock:"12",
-      Statut:"Avalaible"
-    },
-    {
-      Name:"Grue",
-      Price:"1500",
-      Stock:"9",
-      Statut:"Disabled"
-    },
-    {
-      Name:"Elevator",
-      Price:"1700",
-      Stock:"6",
-      Statut:"Avalaible"
-    },
-    {
-      Name:"Tracteur",
-      Price:"1900",
-      Stock:"12",
-      Statut:"Avalaible"
-    },
-  ]);
-
 
   return (
     <>
@@ -99,11 +38,17 @@ function Products() {
                 <></>
             }
             {
-              test.map((items , i)=>(
+              engine.length >0 ?engine.map((items , i)=>(
               <div className='Product' key={i}>
-                <Card Name={items.Name} Price={items.Price}  Stock={items.Stock} Statut={items.Statut} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
+                <Card Name={items.EngineName} Price={items.Price}  Stock={items.Quantity} Statut={items.Quantity<=0?'Disabled':'Available'} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
               </div>
               ))
+               
+              : (
+                <p>
+                  Loading ...
+                </p>
+              )
             }
           </div>
         </div>

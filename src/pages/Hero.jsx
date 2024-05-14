@@ -21,7 +21,7 @@ const Hero = () => {
         <p className="pl-[60px] mt-2">
           Buy or Rent all Constructions materials to us with rentable price with promotions
           <br/>
-          Avalaible for all payement methode.
+          Available for all payement methode.
         </p>
 
         <Link to='/Products'>

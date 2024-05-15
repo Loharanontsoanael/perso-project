@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { Socket , io } from 'socket.io-client'
+import { Socket, io } from "socket.io-client";
 
 const MainContext = createContext({
   CurrentUser: "",
@@ -22,6 +22,7 @@ const MainContext = createContext({
   Logout: () => {},
   AddNewEngine: () => {},
   getEngine: () => {},
+  deleteEngine: () => {},
 });
 
 export const MainProvider = ({ children }) => {
@@ -128,7 +129,7 @@ export const MainProvider = ({ children }) => {
     axios
       .post("http://localhost:8081/NewEngine", value)
       .then((res) => {
-        alert(res.data.Message);
+        // alert(res.data.Message);
       })
       .catch((err) => {
         console.log(res.data.Message);
@@ -148,23 +149,38 @@ export const MainProvider = ({ children }) => {
   };
 
   const getEngineOnRealTime = () => {
-    socket.on('newEngine' , (newEngine)=>{
-        // console.log(newEngine);
-        // setEngine((prevEngine)=>[...prevEngine,newEngine])
-        getEngine()
+    socket.on("newEngine", (newEngine) => {
+      console.log(newEngine);
+      setEngine((prevEngine)=>[...prevEngine,newEngine])
+    });
+
+    socket.on("deletedEngine" , async(deletedId)=>{
+        await getEngine()
     })
+  };
+
+  const editEngine = () => {};
+
+  const deleteEngine = (id) => {
+    axios
+      .delete("http://localhost:8081/deleteEngine/"+id)
+      .then((result) => {
+        console.log(result.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     cookieHandling();
     getEngine();
-    getEngineOnRealTime()
+    getEngineOnRealTime();
     console.log(isLogged);
-    return ()=>{
-        socket.off();
-    }
-}, []);
-
+    return () => {
+      socket.off();
+    };
+  }, []);
 
   return (
     <MainContext.Provider
@@ -188,6 +204,7 @@ export const MainProvider = ({ children }) => {
         AddNewEngine,
         getEngine,
         engine,
+        deleteEngine,
       }}
     >
       {children}

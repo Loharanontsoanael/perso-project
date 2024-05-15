@@ -2,7 +2,19 @@ import React from "react";
 import cardicons from "../assets/icons_buy.png";
 import rating from "../assets/rating.png";
 import remove from "../assets/remove.png";
-function Card({ Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
+import { MainData } from "../../context/MainContext";
+
+function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
+
+  const {
+    deleteEngine
+  }=MainData()
+
+  const handleDelete = (id) =>{
+    deleteEngine(id)
+    // console.log(id);
+  }
+
   return (
     <>
       <div className="card">
@@ -35,7 +47,12 @@ function Card({ Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
         {CurrentPage == "ProductsAdmin" || CurrentUser == "Admin" ? (
           <div className="button-container">
             <button className="buy-button button">Edit</button>
-            <button className="cart-button button">
+            <button
+              className="cart-button button"
+              onClick={() => {
+                handleDelete(id);
+              }}
+            >
               <img
                 src={remove}
                 className="w-[23px] h-[23x] object-contain"

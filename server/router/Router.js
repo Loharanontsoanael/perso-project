@@ -15,4 +15,6 @@ router.get('/logCookie' , AuthController.logCookie)
 router.post('/NewEngine' , EngineController.newEngine)
 router.get('/getEngine' , EngineController.getEngine)
 
+router.delete('/deleteEngine/:id' , EngineController.deleteEngine)
+
 module.exports = router ;

@@ -40,7 +40,15 @@ function Products() {
             {
               engine.length >0 ?engine.map((items , i)=>(
               <div className='Product' key={i}>
-                <Card Name={items.EngineName} Price={items.Price}  Stock={items.Quantity} Statut={items.Quantity<=0?'Disabled':'Available'} CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
+                <Card
+                  id={items.id}
+                  Name={items.EngineName}
+                  Price={items.Price}
+                  Stock={items.Quantity}
+                  Statut={items.Quantity<=0?'Disabled':'Available'}
+                  CurrentPage={CurrentPage}
+                  CurrentUser={CurrentUser}
+                />
               </div>
               ))
                

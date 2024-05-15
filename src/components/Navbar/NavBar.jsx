@@ -19,7 +19,7 @@ function Navbar() {
     setCurrentPage ,
     ShowLogin,
     ShowRegister,
-    Logout
+    Logout,
   } = MainData()
 
   const [navLink , setNavlink] = useState([])

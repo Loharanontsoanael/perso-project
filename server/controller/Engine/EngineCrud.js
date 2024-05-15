@@ -1,3 +1,4 @@
+const { where } = require('sequelize')
 const model = require('../../models')
 
 const Engine = model.ProductTest
@@ -42,8 +43,18 @@ const editEngine = ()=>{
 }
 
 
-const deleteEngine = ()=>{
-
+const deleteEngine = (req,res)=>{
+    const id = req.params.id
+    Engine.destroy({
+        where : {id:id}
+    })
+    .then((deleted)=>{
+        req.io.emit('deletedEngine' , id)
+        res.send({message:'Item Deleted Successfully'})
+    })
+    .catch((err)=>{
+        res.send({message:"Action error"})
+    })
 }
 
 module.exports={

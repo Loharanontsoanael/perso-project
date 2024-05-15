@@ -52,10 +52,10 @@ app.use('/',router)
 
 
 
-io.on('connection', (socket) => {
-    console.log('A client connected');
-    // You can add more socket.io events handling here if needed
-});
+// io.on('connection', (socket) => {
+//     console.log('A client connected');
+//     // You can add more socket.io events handling here if needed
+// });
 
 
 

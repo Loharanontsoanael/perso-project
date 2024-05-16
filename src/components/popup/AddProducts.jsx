@@ -1,6 +1,6 @@
+import { Button } from '@nextui-org/react'
 import React, { useState } from 'react'
 import { MainData } from '../../context/MainContext'
-import { Button } from '@nextui-org/react'
 
 function AddProducts() {
 
@@ -48,6 +48,10 @@ function AddProducts() {
           <div>
             <Button type='Button' onClick={()=>{setIsPopUp(false)}} >Cancel</Button>
             <Button type='submit'>Validate</Button>
+          </div>
+
+          <div>
+            haha test git
           </div>
 
         </form>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MainData } from "../../context/MainContext";
 
 function AddToChart() {
-  const { PopUp, setIsPopUp, formatedDateToday , itemsToCart , addToCart , cartItems , CurrentUser } = MainData();
+  const { PopUp, setIsPopUp, formatedDateToday , itemsToCart , addToCart , cartItems  } = MainData();
 
   const [quantityToRent, setQuantityToRent] = useState(1);
   const [DateLimit, setDateLimit] = useState(formatedDateToday);

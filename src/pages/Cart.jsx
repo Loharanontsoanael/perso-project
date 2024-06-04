@@ -49,12 +49,9 @@ function Cart() {
 
                 <div className='flex-spcbtwn'>
                   <p>Renter </p>
-                  <p className='SummaryValue'> 
+                  <p className='SummaryValue'>
                     {
-                      renter? 
-                       renter
-                      :
-                       "----"
+                      CurrentUser.UserName==""?'---' : CurrentUser.UserName
                     }
                   </p>
                 </div>

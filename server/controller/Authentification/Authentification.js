@@ -5,13 +5,13 @@ const bcrypt = require('bcrypt')
 const saltRounds =10
 
 
-const LoginTest = model.LoginTest
+const User = model.User
 
 const log = (req,res)=>{
     const username = req.body.UserName
     const password = req.body.PassWord
 
-    LoginTest.findOne({where : {UserName:username}})
+    User.findOne({where : {UserName:username}})
     .then((users)=>{
         if(users){
             bcrypt.compare(password , users.PassWord , (error , response)=>{
@@ -39,7 +39,7 @@ const reg = (req,res)=>{
         if(err){
             res.send({Message:err})
         }
-        LoginTest.create({
+        User.create({
             UserName:username ,
             PassWord:hashed
         })
@@ -55,7 +55,7 @@ const reg = (req,res)=>{
 
 const logCookie = (req,res)=>{
     if(req.session.user){
-        res.send({LogStatus: true , user: req.session.user})
+        res.send({LogStatus: true , id:req.session.id ,  user: req.session.user})
     }else{
         res.send({LogStatus: false})
     }

@@ -1,8 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, ForeignKeyConstraintError } = require("sequelize");
 const { sequelize } = require(".");
 
 module.exports = (sequelize , DataTypes)=>{
-    const LoginTest = sequelize.define('LoginTest' , {
+    const User = sequelize.define('User' , {
         UserName :{
             type : DataTypes.STRING ,
             allowNull: false ,
@@ -19,5 +19,14 @@ module.exports = (sequelize , DataTypes)=>{
         }
     })
 
-    return LoginTest
+    User.associate = (models)=>{
+        User.hasMany(models.Rental,{
+            ForeignKey:'user_id',
+            as:'rental',
+            onDelete:'CASCADE',
+            onUpdate:'CASCADE',
+        })
+    }
+
+    return User
 }

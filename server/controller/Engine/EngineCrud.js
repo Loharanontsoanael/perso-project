@@ -1,7 +1,7 @@
 const { where } = require("sequelize");
 const model = require("../../models");
 
-const Engine = model.ProductTest;
+const Engine = model.Engine;
 
 const newEngine = (req, res) => {
   const name = req.body.name;

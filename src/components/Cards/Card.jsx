@@ -5,7 +5,7 @@ import remove from "../assets/remove.png";
 import { MainData } from "../../context/MainContext";
 
 function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
-  const { deleteEngine , ShowEditEngine , ShowAddToCart } = MainData();
+  const { deleteEngine , ShowEditEngine , ShowAddToCart , ShowRentNow} = MainData();
 
   const Item = {
     id: id,
@@ -74,7 +74,7 @@ function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
           </div>
         ) : (
           <div className="button-container">
-            <button className="buy-button button">Rent Now</button>
+            <button className="buy-button button" onClick={()=>{ShowRentNow(Item)}}>Rent Now</button>
             <button className="cart-button button" onClick={()=>{ShowAddToCart(Item)}}>
               <img
                 src={cardicons}

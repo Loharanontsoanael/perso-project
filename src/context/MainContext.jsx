@@ -37,6 +37,7 @@ const MainContext = createContext({
   ShowEditToCart:()=>{},
   editItemCart:{},
   editCart:()=>{},
+  ShowRentNow:()=>{},
 });
 
 export const MainProvider = ({ children }) => {
@@ -50,6 +51,7 @@ export const MainProvider = ({ children }) => {
   };
 
   const [CurrentUser, setCurrentUser] = useState({
+    id:'',
     UserName: "",
     Type: "Guest",
   });
@@ -107,6 +109,17 @@ export const MainProvider = ({ children }) => {
     setPopUp('EditChart')
   };
 
+  const ShowRentNow = (item)=>{
+    PopUpWrapper()
+    if(CurrentUser.UserName!==""&&CurrentUser.Type!=="Guest"){
+      setItemsTocart(item)
+      setPopUp('RentNow')
+    }
+    else{
+      ShowLogin()
+    }
+  }
+
   const Login = async (UserName, PassWord) => {
     const Values = {
       UserName: UserName,
@@ -118,6 +131,7 @@ export const MainProvider = ({ children }) => {
       .then((res) => {
         if (res.data.UserName) {
           setCurrentUser({
+            id: res.data.id ,
             UserName: res.data.UserName,
             Type: res.data.UserName !== "Admin" ? "Client" : "Admin",
           });
@@ -140,6 +154,7 @@ export const MainProvider = ({ children }) => {
       .then((res) => {
         if (res.data.UserName) {
           setCurrentUser({
+            id: res.data.id , 
             UserName: res.data.UserName,
             Type: res.data.UserName !== "Admin" ? "Client" : "Admin",
           });
@@ -158,6 +173,7 @@ export const MainProvider = ({ children }) => {
         console.log(res);
         setIsLogged(false);
         setCurrentUser({
+          id:'',
           UserName: "",
           Type: "Guest",
         });
@@ -172,6 +188,7 @@ export const MainProvider = ({ children }) => {
       .get("http://localhost:8081/logCookie")
       .then((res) => {
         setCurrentUser({
+          id: res.data.id,
           UserName: res.data.user.username,
           Type: res.data.user.username !== "Admin" ? "Client" : "Admin",
         });
@@ -334,6 +351,7 @@ export const MainProvider = ({ children }) => {
         ShowEditToCart,
         editItemCart,
         editCart,
+        ShowRentNow,
       }}
     >
       {children}

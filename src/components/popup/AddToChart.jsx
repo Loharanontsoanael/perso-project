@@ -4,7 +4,7 @@ import { MainData } from "../../context/MainContext";
 
 function AddToChart() {
   const { PopUp, setIsPopUp, formatedDateToday , itemsToCart , addToCart , cartItems , CurrentUser } = MainData();
-  
+
   const [quantityToRent, setQuantityToRent] = useState(1);
   const [DateLimit, setDateLimit] = useState(formatedDateToday);
 
@@ -20,6 +20,7 @@ function AddToChart() {
       id: itemsToCart.id,
       name : itemsToCart.name,
       quantity : quantityToRent ,
+      initialPrice:itemsToCart.price,
       price : parseInt(quantityToRent)*parseInt(itemsToCart.price)*(differenceOfDate+1) ,
       datelimit: DateLimit ,
     }

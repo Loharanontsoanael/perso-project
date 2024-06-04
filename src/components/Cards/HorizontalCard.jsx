@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { MainData } from "../../context/MainContext";
 
 function HorizontalCard({item}) {
-  const { CurrentPage, CurrentUser } = MainData();
+  const { CurrentPage, CurrentUser , formatedDateToday , deletToCart, ShowEditToCart} = MainData();
+
+  const datelimit = new Date(item&&item.datelimit)
+  const today = new Date(formatedDateToday)
+  
+  const differenceOfDate = Math.ceil((datelimit.getTime() - today.getTime())/(1000*60*60*24))
 
 
   return (
@@ -16,8 +21,9 @@ function HorizontalCard({item}) {
 
           <div className="HzCardDetails">
             {CurrentUser.Type == "Admin" ? <p>Renter: {item && item.renter}</p> : <></>}
+            <p>Price: {item &&item.initialPrice} Ar</p>
             <p>Quantity: {item &&item.quantity}</p>
-            <p>Limit date : {item &&item.datelimit}</p>
+            <p>Limit date : {item &&item.datelimit} {differenceOfDate>0? `( ${differenceOfDate+1} days left)`:'(Today left)'}</p>
           </div>
         </div>
 
@@ -26,11 +32,15 @@ function HorizontalCard({item}) {
         ) : (
           <p className="HzCardPrice">{item.price}</p>
         )} */}
-        <p className="HzCardPrice">{item && item.price} AR</p>
+        <p className="HzCardPrice">{item && item.price} Ar</p>
 
         <div className="HzCardButtons">
           {CurrentUser.Type !== "Admin" ? (
-            <Button className="mr-2">edit</Button>
+            <Button className="mr-2" onClick={()=>{
+              if(item){
+                ShowEditToCart(item)
+              }
+            }}>edit</Button>
           ) : (
             <></>
           )}
@@ -45,7 +55,11 @@ function HorizontalCard({item}) {
               <Button>Done</Button>
             </div>
           ) : CurrentPage == "Cart" ? (
-            <Button>Delete</Button>
+            <Button onClick={()=>{
+              if(item){
+                deletToCart(item.id)
+              }
+            }}>Delete</Button>
           ) : (
             <></>
           )}

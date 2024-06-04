@@ -5,7 +5,7 @@ import { MainData } from '../context/MainContext'
 
 function Cart() {
 
-  const{CurrentPage ,CurrentUser , cartItems }=MainData()
+  const{CurrentPage ,CurrentUser , cartItems  }=MainData()
 
   const [renter , setRenter] = useState(CurrentUser.UserName==""? null : CurrentUser.UserName)
   const totalItems = cartItems.reduce((total,item)=>total+ parseInt(item.quantity , 10) , 0)

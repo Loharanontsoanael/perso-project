@@ -33,6 +33,10 @@ const MainContext = createContext({
   itemsToCart: {},
   cartItems: [],
   addToCart: () => {},
+  deletToCart: () => {},
+  ShowEditToCart:()=>{},
+  editItemCart:{},
+  editCart:()=>{},
 });
 
 export const MainProvider = ({ children }) => {
@@ -59,11 +63,11 @@ export const MainProvider = ({ children }) => {
   const formatedDateToday = formatDate(today);
   const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
   const [itemsToCart, setItemsTocart] = useState({});
-
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [editItemCart,setEditItemCart]=useState({})
 
   const PopUpWrapper = () => {
     setIsPopUp(true);
@@ -95,6 +99,12 @@ export const MainProvider = ({ children }) => {
     PopUpWrapper();
     setItemsTocart(item);
     setPopUp("AddToChart");
+  };
+
+  const ShowEditToCart = (item) => {
+    PopUpWrapper()
+    setEditItemCart(item)
+    setPopUp('EditChart')
   };
 
   const Login = async (UserName, PassWord) => {
@@ -237,7 +247,7 @@ export const MainProvider = ({ children }) => {
 
   const addToCart = (newItems) => {
     const existIndex = cartItems.findIndex((item) => {
-      return (item.id == newItems.id && item.datelimit == newItems.datelimit);
+      return item.id == newItems.id && item.datelimit == newItems.datelimit;
     });
 
     console.log(existIndex);
@@ -245,13 +255,32 @@ export const MainProvider = ({ children }) => {
       const currentcartItems = [...cartItems];
       currentcartItems[existIndex] = {
         ...currentcartItems[existIndex],
-        quantity: parseInt(currentcartItems[existIndex].quantity) + parseInt(newItems.quantity),
-        price: parseInt(currentcartItems[existIndex].price) + parseInt(newItems.price),
+        quantity:
+          parseInt(currentcartItems[existIndex].quantity) +
+          parseInt(newItems.quantity),
+        price:
+          parseInt(currentcartItems[existIndex].price) +
+          parseInt(newItems.price),
       };
       setCartItems(currentcartItems);
     } else {
       setCartItems([...cartItems, newItems]);
     }
+  };
+
+  const editCart = (id,updatedItems) => {
+    const updateCart=cartItems.map(item=>{
+      if(item.id == id){
+        return {...item,...updatedItems}
+      }
+      return item
+    })
+    setCartItems(updateCart)
+  }
+
+  const deletToCart = (id) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedCartItems);
   };
 
   useEffect(() => {
@@ -301,6 +330,10 @@ export const MainProvider = ({ children }) => {
         itemsToCart,
         cartItems,
         addToCart,
+        deletToCart,
+        ShowEditToCart,
+        editItemCart,
+        editCart,
       }}
     >
       {children}

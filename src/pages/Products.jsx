@@ -21,14 +21,14 @@ function Products() {
         <div className='SearchContainer dark'>
           <Search/>
           <p>
-            {CurrentPage}
+            {/* {CurrentPage.UserName} */}
           </p>
         </div>
 
         <div className='ProdContentContainer'>
           <div className='ProdContent'>
             {
-              (CurrentPage=="ProductsAdmin" || CurrentUser=='Admin')?
+              (CurrentPage=="ProductsAdmin" || CurrentUser.Type=='Admin')?
                 <div className='Product' onClick={ShowAddProduct}>
                   <p className='card' id='CardMainAdd'>
                     +

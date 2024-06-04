@@ -30,7 +30,7 @@ const attachSocket = (req, res, next) => {
 };
 
 app.use(cors(Parameter))
-app.use(attachSocket);
+app.use(attachSocket); 
 app.use(bodyParser.json())
 app.use(Express.json())
 app.use(cookieParser())

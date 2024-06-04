@@ -14,7 +14,6 @@ router.get('/logCookie' , AuthController.logCookie)
 //Engine
 router.post('/NewEngine' , EngineController.newEngine)
 router.get('/getEngine' , EngineController.getEngine)
-
 router.delete('/deleteEngine/:id' , EngineController.deleteEngine)
-
+router.put('/editEngine/:idEngine' , EngineController.editEngine)
 module.exports = router ;

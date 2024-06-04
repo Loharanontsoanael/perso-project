@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HorizontalCard from '../components/Cards/HorizontalCard'
 import { Button } from '@nextui-org/react'
 import { MainData } from '../context/MainContext'
 
 function Cart() {
 
-  const{CurrentPage ,CurrentUser }=MainData()
+  const{CurrentPage ,CurrentUser , cartItems }=MainData()
 
-  const [renter , setRenter] = useState(null)
+  const [renter , setRenter] = useState(CurrentUser.UserName==""? null : CurrentUser.UserName)
+  const totalItems = cartItems.reduce((total,item)=>total+ parseInt(item.quantity , 10) , 0)
+  const totalPrice = cartItems.reduce((total,item)=>total+parseInt(item.price) , 0)
+
 
   return (
     <>
@@ -15,27 +18,17 @@ function Cart() {
 
         <div className='CartItemsContainer'>
 
-          <div className='CartItemsTitle dark'>
-            <p> </p>
-          </div>
-
-          <p>
-            {CurrentPage}
-          </p>
-          <div className='CartItems'>
-            <HorizontalCard CurrentPage={CurrentPage} CurrentUser={CurrentUser} />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard CurrentPage={CurrentPage} />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard CurrentPage={CurrentPage} />
-          </div>
-          <div className='CartItems'>
-            <HorizontalCard CurrentPage={CurrentPage} />
-          </div>
-
-
+          { cartItems.length > 0 ?
+                cartItems.map((item , i)=>(
+                  <div className='CartItems' key={i}>
+                    <HorizontalCard CurrentPage={CurrentPage} CurrentUser={CurrentUser} item={item} />
+                  </div>
+                ))
+              :
+                <p>
+                  No item Yet
+                </p>
+          }
 
         </div>
 
@@ -68,12 +61,12 @@ function Cart() {
 
                 <div className='flex-spcbtwn'>
                   <p>Items </p>
-                  <p className='SummaryValue'>23</p>
+                  <p className='SummaryValue'>{totalItems}</p>
                 </div>
 
                 <div className='flex-spcbtwn'>
                   <p>Total</p>
-                  <p className='SummaryValue'>123 400 450 AR</p>
+                  <p className='SummaryValue'>{totalPrice} AR</p>
                 </div>
 
               </div>

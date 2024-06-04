@@ -2,42 +2,44 @@ import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 import { MainData } from "../../context/MainContext";
 
-function HorizontalCard() {
+function HorizontalCard({item}) {
   const { CurrentPage, CurrentUser } = MainData();
+
 
   return (
     <>
       <div className="HzCardMain">
         <div className="hzCardDescri">
           <div className="HzCardItemInfo">
-            <p className="HzCardEngName">EngineName </p>
+            <p className="HzCardEngName">{ item && item.name} </p>
           </div>
 
           <div className="HzCardDetails">
-            {CurrentUser == "Admin" ? <p>Renter: Jojo</p> : <></>}
-            <p>Quantity: 4</p>
-            <p>Duration : 4 months</p>
+            {CurrentUser.Type == "Admin" ? <p>Renter: {item && item.renter}</p> : <></>}
+            <p>Quantity: {item &&item.quantity}</p>
+            <p>Limit date : {item &&item.datelimit}</p>
           </div>
         </div>
 
-        {CurrentPage == "Cart" || CurrentPage == "Request" ? (
+        {/* {CurrentPage == "Cart" || CurrentPage == "Request" ? (
           <p className="HzCardPrice">1200050 Ar</p>
         ) : (
-          <p className="HzCardPrice">Pending</p>
-        )}
+          <p className="HzCardPrice">{item.price}</p>
+        )} */}
+        <p className="HzCardPrice">{item && item.price} AR</p>
 
         <div className="HzCardButtons">
-          {CurrentUser !== "Admin" ? (
+          {CurrentUser.Type !== "Admin" ? (
             <Button className="mr-2">edit</Button>
           ) : (
             <></>
           )}
-          {CurrentUser == "Admin" && CurrentPage == "Request" ? (
+          {CurrentUser.Type == "Admin" && CurrentPage == "Request" ? (
             <div>
               <Button>Accept </Button>
               <Button>Deny </Button>
             </div>
-          ) : CurrentUser == "Admin" && CurrentPage == "RentalsAdmin" ? (
+          ) : CurrentUser.Type == "Admin" && CurrentPage == "RentalsAdmin" ? (
             <div>
               <Button>Report</Button>
               <Button>Done</Button>

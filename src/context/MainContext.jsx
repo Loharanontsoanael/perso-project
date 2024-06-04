@@ -1,18 +1,21 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 const MainContext = createContext({
-  CurrentUser: "",
+  CurrentUser: {},
   CurrentPage: "",
   IsPopUp: false,
   PopUp: "",
   isLogged: false,
   engine: {},
+  CurrentEngine: {},
+  setCurrentEngine: () => {},
   PopUpWrapper: () => {},
   ShowLogin: () => {},
   ShowRegister: () => {},
   ShowAddProduct: () => {},
+  ShowEditEngine: () => {},
   setCurrentPage: () => {},
   setCurrentUser: () => {},
   setIsPopUp: () => {},
@@ -23,17 +26,44 @@ const MainContext = createContext({
   AddNewEngine: () => {},
   getEngine: () => {},
   deleteEngine: () => {},
+  editEngine: () => {},
+  ShowAddToCart: () => {},
+  formatDate: () => {},
+  formatedDateToday: "",
+  itemsToCart: {},
+  cartItems: [],
+  addToCart: () => {},
 });
 
 export const MainProvider = ({ children }) => {
   const socket = io("http://localhost:8081/");
 
-  const [CurrentUser, setCurrentUser] = useState("");
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const [CurrentUser, setCurrentUser] = useState({
+    UserName: "",
+    Type: "Guest",
+  });
   const [CurrentPage, setCurrentPage] = useState("");
+  const [CurrentEngine, setCurrentEngine] = useState({});
   const [IsPopUp, setIsPopUp] = useState(false);
   const [PopUp, setPopUp] = useState("");
   const [isLogged, setIsLogged] = useState(false);
   const [engine, setEngine] = useState({});
+  const today = new Date();
+  const formatedDateToday = formatDate(today);
+  const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
+  const [itemsToCart, setItemsTocart] = useState({});
+
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
   const PopUpWrapper = () => {
     setIsPopUp(true);
@@ -55,6 +85,18 @@ export const MainProvider = ({ children }) => {
     setPopUp("New Engine");
   };
 
+  const ShowEditEngine = (item) => {
+    PopUpWrapper();
+    setCurrentEngine(item);
+    setPopUp("EditProducts");
+  };
+
+  const ShowAddToCart = (item) => {
+    PopUpWrapper();
+    setItemsTocart(item);
+    setPopUp("AddToChart");
+  };
+
   const Login = async (UserName, PassWord) => {
     const Values = {
       UserName: UserName,
@@ -65,7 +107,10 @@ export const MainProvider = ({ children }) => {
       .post("http://localhost:8081/log", Values)
       .then((res) => {
         if (res.data.UserName) {
-          setCurrentUser(res.data.UserName);
+          setCurrentUser({
+            UserName: res.data.UserName,
+            Type: res.data.UserName !== "Admin" ? "Client" : "Admin",
+          });
           setIsLogged(true);
         }
       })
@@ -84,7 +129,10 @@ export const MainProvider = ({ children }) => {
       .post("http://localhost:8081/reg", values)
       .then((res) => {
         if (res.data.UserName) {
-          setCurrentUser(res.data.UserName);
+          setCurrentUser({
+            UserName: res.data.UserName,
+            Type: res.data.UserName !== "Admin" ? "Client" : "Admin",
+          });
           setIsLogged(true);
         }
       })
@@ -99,7 +147,10 @@ export const MainProvider = ({ children }) => {
       .then((res) => {
         console.log(res);
         setIsLogged(false);
-        setCurrentUser("");
+        setCurrentUser({
+          UserName: "",
+          Type: "Guest",
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -110,7 +161,10 @@ export const MainProvider = ({ children }) => {
     axios
       .get("http://localhost:8081/logCookie")
       .then((res) => {
-        setCurrentUser(res.data.user.username);
+        setCurrentUser({
+          UserName: res.data.user.username,
+          Type: res.data.user.username !== "Admin" ? "Client" : "Admin",
+        });
         setIsLogged(res.data.LogStatus);
       })
       .catch((err) => {
@@ -137,6 +191,28 @@ export const MainProvider = ({ children }) => {
       });
   };
 
+  const editEngine = (id, values) => {
+    axios
+      .put("http://localhost:8081/editEngine/" + id, values)
+      .then((result) => {
+        console.log("good");
+      })
+      .catch((err) => {
+        console.log("Error");
+      });
+  };
+
+  const deleteEngine = (id) => {
+    axios
+      .delete("http://localhost:8081/deleteEngine/" + id)
+      .then((result) => {
+        console.log(result.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const getEngine = () => {
     axios
       .get("http://localhost:8081/getEngine")
@@ -151,25 +227,31 @@ export const MainProvider = ({ children }) => {
   const getEngineOnRealTime = () => {
     socket.on("newEngine", (newEngine) => {
       console.log(newEngine);
-      setEngine((prevEngine)=>[...prevEngine,newEngine])
+      setEngine((prevEngine) => [...prevEngine, newEngine]);
     });
 
-    socket.on("deletedEngine" , async(deletedId)=>{
-        await getEngine()
-    })
+    socket.on("updatedEngine", async () => {
+      await getEngine();
+    });
   };
 
-  const editEngine = () => {};
+  const addToCart = (newItems) => {
+    const existIndex = cartItems.findIndex((item) => {
+      return (item.id == newItems.id && item.datelimit == newItems.datelimit);
+    });
 
-  const deleteEngine = (id) => {
-    axios
-      .delete("http://localhost:8081/deleteEngine/"+id)
-      .then((result) => {
-        console.log(result.data.message);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(existIndex);
+    if (existIndex !== -1) {
+      const currentcartItems = [...cartItems];
+      currentcartItems[existIndex] = {
+        ...currentcartItems[existIndex],
+        quantity: parseInt(currentcartItems[existIndex].quantity) + parseInt(newItems.quantity),
+        price: parseInt(currentcartItems[existIndex].price) + parseInt(newItems.price),
+      };
+      setCartItems(currentcartItems);
+    } else {
+      setCartItems([...cartItems, newItems]);
+    }
   };
 
   useEffect(() => {
@@ -181,6 +263,10 @@ export const MainProvider = ({ children }) => {
       socket.off();
     };
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
     <MainContext.Provider
@@ -197,6 +283,7 @@ export const MainProvider = ({ children }) => {
         ShowLogin,
         ShowRegister,
         ShowAddProduct,
+        ShowEditEngine,
         Login,
         Register,
         isLogged,
@@ -205,6 +292,15 @@ export const MainProvider = ({ children }) => {
         getEngine,
         engine,
         deleteEngine,
+        CurrentEngine,
+        setCurrentEngine,
+        editEngine,
+        ShowAddToCart,
+        formatDate,
+        formatedDateToday,
+        itemsToCart,
+        cartItems,
+        addToCart,
       }}
     >
       {children}

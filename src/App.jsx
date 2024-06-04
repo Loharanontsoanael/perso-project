@@ -19,9 +19,9 @@ function App() {
     const refPopUp = useRef("");
 
   useEffect(() => {
-    if (CurrentUser == "Admin") {
+    if (CurrentUser.Type == "Admin") {
       navigate("/ProductsAdmin");
-    } else if (CurrentUser == "") {
+    } else if (CurrentUser.Type == "Guest") {
       navigate("/");
     } else {
       console.log(CurrentUser);

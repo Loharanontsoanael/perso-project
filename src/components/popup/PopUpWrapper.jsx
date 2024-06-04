@@ -7,6 +7,7 @@ import EditChart from './EditChart'
 import EditRentals from './EditRentals'
 import { MainData } from '../../context/MainContext'
 import AddToChart from './AddToChart'
+import RentNow from './RentNow'
 
 function PopUpWrapper({refPopUp}) {
   const {
@@ -22,7 +23,8 @@ function PopUpWrapper({refPopUp}) {
             PopUp=="New Engine" && <AddProducts /> ||
             PopUp=="EditProducts" && <EditProducts /> ||
             PopUp=="EditChart" && <EditChart /> ||
-            PopUp=="EditRentals" && <EditRentals />
+            PopUp=="EditRentals" && <EditRentals /> ||
+            PopUp == 'RentNow' && <RentNow />
           }
         </div>
     </>

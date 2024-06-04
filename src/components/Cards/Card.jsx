@@ -5,15 +5,20 @@ import remove from "../assets/remove.png";
 import { MainData } from "../../context/MainContext";
 
 function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
+  const { deleteEngine , ShowEditEngine , ShowAddToCart } = MainData();
 
-  const {
-    deleteEngine
-  }=MainData()
+  const Item = {
+    id: id,
+    name: Name,
+    price: Price,
+    stock: Stock,
+    Statut: Statut,
+  };
 
-  const handleDelete = (id) =>{
-    deleteEngine(id)
+  const handleDelete = (id) => {
+    deleteEngine(id);
     // console.log(id);
-  }
+  };
 
   return (
     <>
@@ -28,7 +33,7 @@ function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
               <p className="px-2">{Statut}</p>
             </div>
           )}
-          <div className="price">{Price} Ar /heure</div>
+          <div className="price">{Price} Ar /Day</div>
         </div>
 
         <div className="content">
@@ -44,9 +49,16 @@ function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
             <p className="flex">4.5</p>
           </div>
         </div>
-        {CurrentPage == "ProductsAdmin" || CurrentUser == "Admin" ? (
+        {CurrentPage == "ProductsAdmin" || CurrentUser.Type == "Admin" ? (
           <div className="button-container">
-            <button className="buy-button button">Edit</button>
+            <button
+              className="buy-button button"
+              onClick={() => {
+                ShowEditEngine(Item)
+              }}
+            >
+              Edit
+            </button>
             <button
               className="cart-button button"
               onClick={() => {
@@ -62,8 +74,8 @@ function Card({ id, Name, Price, Stock, Statut, CurrentUser, CurrentPage }) {
           </div>
         ) : (
           <div className="button-container">
-            <button className="buy-button button">Loan Now</button>
-            <button className="cart-button button">
+            <button className="buy-button button">Rent Now</button>
+            <button className="cart-button button" onClick={()=>{ShowAddToCart(Item)}}>
               <img
                 src={cardicons}
                 className="w-[23px] h-[23x] object-contain"

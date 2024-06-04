@@ -13,7 +13,7 @@ function Rentals() {
           {/* <div className='RentalContent'>
           </div> */}
           <p>
-            {CurrentUser}
+            {/* {CurrentUser.Type} */}
           </p>
           <div className='CartItems'>
             <HorizontalCard CurrentPage={CurrentPage} CurrentUser={CurrentUser} />

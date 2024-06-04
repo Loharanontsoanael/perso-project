@@ -25,7 +25,7 @@ function Navbar() {
   const [navLink , setNavlink] = useState([])
 
   useEffect(()=>{
-    if(CurrentUser=="Admin"){
+    if(CurrentUser.Type=="Admin"){
       setNavlink(navLinksAdmin)
     }else{
       setNavlink(navLinks)
@@ -67,7 +67,7 @@ function Navbar() {
           || isLogged &&
             <div className="NavBarUserContainer ">
               <div>
-                <User name={CurrentUser} avatarProps={{ name:'' }}  className="UserInfo"/>
+                <User name={CurrentUser.UserName} avatarProps={{ name:'' }}  className="UserInfo"/>
               </div>
               <div>
                 <Button onClick={Logout}>Logout</Button>

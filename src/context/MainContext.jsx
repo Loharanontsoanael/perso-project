@@ -40,6 +40,7 @@ const MainContext = createContext({
   ShowRentNow:()=>{},
   addRental:()=>{},
   rental:{},
+  setCartItems:()=>{}
 });
 
 export const MainProvider = ({ children }) => {
@@ -385,6 +386,7 @@ export const MainProvider = ({ children }) => {
         ShowRentNow,
         addRental,
         rental,
+        setCartItems
       }}
     >
       {children}

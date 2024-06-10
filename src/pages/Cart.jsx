@@ -1,15 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import HorizontalCard from '../components/Cards/HorizontalCard'
 import { Button } from '@nextui-org/react'
+import React, { useState } from 'react'
+import HorizontalCard from '../components/Cards/HorizontalCard'
 import { MainData } from '../context/MainContext'
 
 function Cart() {
 
-  const{CurrentPage ,CurrentUser , cartItems  }=MainData()
+  const{CurrentPage ,CurrentUser , cartItems ,isLogged,ShowLogin , addRental , setCartItems }=MainData()
 
   const [renter , setRenter] = useState(CurrentUser.UserName==""? null : CurrentUser.UserName)
   const totalItems = cartItems.reduce((total,item)=>total+ parseInt(item.quantity , 10) , 0)
   const totalPrice = cartItems.reduce((total,item)=>total+parseInt(item.price) , 0)
+
+  const handlePurchase = ()=>{
+    if(CurrentUser.Type !== 'Guest'){
+      if(cartItems.length>0){
+        cartItems.map((items)=>{
+          const value={
+            user_id : CurrentUser.id ,
+            engine_id : items.id,
+            dateLimit : items.datelimit,
+            choosen_quantity: items.quantity ,
+            total_price : items.price
+          }
+          // addRental(value)
+          console.log(value);
+        })
+        setCartItems([])
+      }
+    }else{
+      ShowLogin()
+    }
+  }
 
 
   return (
@@ -69,7 +90,7 @@ function Cart() {
               </div>
 
               <div className="SummaryButtons">
-              <Button className='SummaryValidate primary '>
+              <Button className='SummaryValidate primary ' onClick={()=>{handlePurchase()}}>
                 Purchase
               </Button>
               </div>

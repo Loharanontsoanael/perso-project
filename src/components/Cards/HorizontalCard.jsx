@@ -78,7 +78,7 @@ function HorizontalCard({ item, rentals }) {
             {(item && item.price) || rentals.total_price} Ar
           </p>
         ) : (
-          <p className="HzCardPrice">'Pending'</p>
+          <p className="HzCardPrice">{rentals&&rentals.status}</p>
         )}
         {/* <p className="HzCardPrice">{item && item.price} Ar</p> */}
         {CurrentUser.Type == "Admin" && CurrentPage == "Request" ? (

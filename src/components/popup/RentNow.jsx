@@ -40,13 +40,15 @@ function RentNow() {
       date_limit: DateLimit,
     };
 
-    values_to_Rental = {
-        id_renter : valuesToRent.renter_id ,
-        id_engine : valuesToRent.egine_id,
+    const values_to_Rental = {
+        UserId : valuesToRent.renter_id ,
+        engine_id : valuesToRent.engine_id,
+        dateLimit : valuesToRent.date_limit,
+        choosen_quantity: 1 ,
     }
 
     // addToCart(valuesCart);
-    console.log(valuesToRent);
+    console.log(values_to_Rental);
     setIsPopUp(false);
   };
 

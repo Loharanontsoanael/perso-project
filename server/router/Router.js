@@ -1,6 +1,6 @@
 const express = require('express')
 // const AuthController = require('../controller/Authentification/Authentification.js')
-const {AuthController , EngineController}=require('../controller/controllerModule')
+const {AuthController , EngineController, RentalController}=require('../controller/controllerModule')
 
 const router = express.Router();
 
@@ -16,4 +16,10 @@ router.post('/NewEngine' , EngineController.newEngine)
 router.get('/getEngine' , EngineController.getEngine)
 router.delete('/deleteEngine/:id' , EngineController.deleteEngine)
 router.put('/editEngine/:idEngine' , EngineController.editEngine)
+
+
+
+//Rentals
+router.get('/getRenta;', RentalController.getRental)
+// router.post()
 module.exports = router ;

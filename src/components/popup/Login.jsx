@@ -1,6 +1,7 @@
 import { Button } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { MainData } from '../../context/MainContext';
+import { FaTimes } from 'react-icons/fa'; // Import de l'icône de fermeture
 
 function Login() {
   const { ShowRegister, ShowLogin, PopUp, Login, Register, setIsPopUp } = MainData();
@@ -31,7 +32,13 @@ function Login() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="bg-gray-800 p-6 rounded shadow-lg w-1/3 text-white">
+      <div className="bg-gray-800 p-6 rounded shadow-lg w-1/3 text-white relative">
+        <button
+          className="absolute top-2 right-2 text-white"
+          onClick={() => setIsPopUp(false)}
+        >
+          <FaTimes className="w-6 h-6" />
+        </button>
         <h1 className="text-2xl font-semibold mb-4">{PopUp}</h1>
         <form className="space-y-4" onSubmit={HandleSubmit}>
           <div className="flex flex-col">
@@ -64,6 +71,11 @@ function Login() {
             {PopUp}
           </Button>
         </form>
+        {PopUp === 'Login' && (
+          <div className="mt-2 text-right">
+            <span className="cursor-pointer text-blue-500">Forgot Password?</span>
+          </div>
+        )}
         {PopUp === 'Login' ? (
           <div className="mt-4 text-center">
             <p>No account yet? <span className="cursor-pointer text-blue-500" onClick={ShowRegister}>Register</span></p>

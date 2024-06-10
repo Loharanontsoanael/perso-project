@@ -1,6 +1,7 @@
 import { Button } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { MainData } from "../../context/MainContext";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 function HorizontalCard({ item, rentals }) {
   const {
@@ -78,14 +79,24 @@ function HorizontalCard({ item, rentals }) {
             {(item && item.price) || rentals.total_price} Ar
           </p>
         ) : (
-          <p className="HzCardPrice">{rentals&&rentals.status}</p>
+          <p className="HzCardPrice">{rentals && rentals.status}</p>
         )}
         {/* <p className="HzCardPrice">{item && item.price} Ar</p> */}
         {CurrentUser.Type == "Admin" && CurrentPage == "Request" ? (
-          <div className="HzCardButtons">
-            <div>
-              <Button>Accept </Button>
-              <Button>Deny </Button>
+          <div className="HzCardButtons mt-4">
+            <div className="flex space-x-4">
+              <button
+                aria-label="Accept"
+                className="p-2 bg-gray-800 text-white rounded-[0.5em] shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
+              >
+                <FaCheck className="w-5 h-5" />
+              </button>
+              <button
+                aria-label="Deny"
+                className="p-2 bg-red-500 text-white rounded-[0.5em] shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                <FaTimes className="w-5 h-5" />
+              </button>
             </div>
           </div>
         ) : CurrentUser.Type == "Admin" && CurrentPage == "RentalsAdmin" ? (

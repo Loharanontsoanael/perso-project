@@ -21,7 +21,7 @@ module.exports = (sequelize , DataTypes)=>{
 
     User.associate = (models)=>{
         User.hasMany(models.Rental,{
-            ForeignKey:'user_id',
+            foreignKey:'user_id',
             as:'rental',
             onDelete:'CASCADE',
             onUpdate:'CASCADE',

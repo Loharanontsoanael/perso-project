@@ -251,6 +251,19 @@ export const MainProvider = ({ children }) => {
       });
   };
 
+  const getRentals = ()=>{
+    // console.log('fory');
+    axios
+    .get("http://localhost:8081/getRental")
+    .then((res) => {
+      // setEngine(res.data.engine);
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("error");
+    });
+  }
+
   const getEngineOnRealTime = () => {
     socket.on("newEngine", (newEngine) => {
       console.log(newEngine);
@@ -301,9 +314,10 @@ export const MainProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    cookieHandling();
     getEngine();
+    getRentals()
     getEngineOnRealTime();
+    cookieHandling();
     console.log(isLogged);
     return () => {
       socket.off();

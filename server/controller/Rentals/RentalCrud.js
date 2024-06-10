@@ -41,6 +41,7 @@ const newRental = (req,res)=>{
         total_price:rb.total_price
     })
     .then((rentals)=>{
+        req.io.emit('newRental' , rentals)
         res.send({Rental: rentals})
     })
     .catch((err)=>{

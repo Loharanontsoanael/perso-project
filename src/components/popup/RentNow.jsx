@@ -9,6 +9,7 @@ function RentNow() {
     formatedDateToday,
     itemsToCart,
     CurrentUser,
+    addRental,
   } = MainData();
 
   const [DateLimit, setDateLimit] = useState(formatedDateToday);
@@ -32,19 +33,21 @@ function RentNow() {
       initial_price: itemsToCart.price,
       total_price:
         parseInt(itemsToCart.price) *
-        (differenceOfDate + 1),
+        (differenceOfDate+1),
       date_limit: DateLimit,
     };
 
     const values_to_Rental = {
-        UserId : valuesToRent.renter_id ,
+        user_id : valuesToRent.renter_id ,
         engine_id : valuesToRent.engine_id,
         dateLimit : valuesToRent.date_limit,
         choosen_quantity: 1 ,
+        total_price : valuesToRent.total_price
     }
 
     // addToCart(valuesCart);
-    console.log(values_to_Rental);
+    // console.log(valuesToRent);
+    addRental(values_to_Rental)
     setIsPopUp(false);
   };
 

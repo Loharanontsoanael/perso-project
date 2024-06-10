@@ -38,6 +38,8 @@ const MainContext = createContext({
   editItemCart:{},
   editCart:()=>{},
   ShowRentNow:()=>{},
+  addRental:()=>{},
+  rental:{},
 });
 
 export const MainProvider = ({ children }) => {
@@ -70,6 +72,7 @@ export const MainProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [editItemCart,setEditItemCart]=useState({})
+  const [rental ,setRental]= useState({})
 
   const PopUpWrapper = () => {
     setIsPopUp(true);
@@ -188,7 +191,7 @@ export const MainProvider = ({ children }) => {
       .get("http://localhost:8081/logCookie")
       .then((res) => {
         setCurrentUser({
-          id: res.data.id,
+          id: res.data.user.id,
           UserName: res.data.user.username,
           Type: res.data.user.username !== "Admin" ? "Client" : "Admin",
         });
@@ -252,19 +255,17 @@ export const MainProvider = ({ children }) => {
   };
 
   const getRentals = ()=>{
-    // console.log('fory');
     axios
     .get("http://localhost:8081/getRental")
     .then((res) => {
-      // setEngine(res.data.engine);
-      console.log(res);
+      setRental(res.data.Rental)
     })
     .catch((err) => {
       console.log("error");
     });
   }
 
-  const getEngineOnRealTime = () => {
+  const realTime = () => {
     socket.on("newEngine", (newEngine) => {
       console.log(newEngine);
       setEngine((prevEngine) => [...prevEngine, newEngine]);
@@ -273,6 +274,10 @@ export const MainProvider = ({ children }) => {
     socket.on("updatedEngine", async () => {
       await getEngine();
     });
+
+    socket.on('newRental', (newRental)=>{
+      getRentals()
+    })
   };
 
   const addToCart = (newItems) => {
@@ -313,12 +318,24 @@ export const MainProvider = ({ children }) => {
     setCartItems(updatedCartItems);
   };
 
+
+
+  const addRental = (value)=>{
+    axios.post('http://localhost:8081/newRental' , value)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
   useEffect(() => {
     getEngine();
     getRentals()
-    getEngineOnRealTime();
+    realTime();
     cookieHandling();
-    console.log(isLogged);
+    console.log(CurrentUser);
     return () => {
       socket.off();
     };
@@ -366,6 +383,8 @@ export const MainProvider = ({ children }) => {
         editItemCart,
         editCart,
         ShowRentNow,
+        addRental,
+        rental,
       }}
     >
       {children}

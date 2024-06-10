@@ -21,5 +21,6 @@ router.put('/editEngine/:idEngine' , EngineController.editEngine)
 
 //Rentals
 router.get('/getRental', RentalController.getRental)
+router.post('/newRental', RentalController.newRental)
 // router.post()
 module.exports = router ;

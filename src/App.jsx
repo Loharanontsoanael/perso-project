@@ -35,7 +35,7 @@ function App() {
 
   const handlePopUp = (e) => {
     if (refPopUp.current && !refPopUp.current.contains(e.target)) {
-      setIsPopUp(false);
+      // setIsPopUp(false);
       console.log("test");
     }
   };
@@ -53,7 +53,7 @@ function App() {
         </div>
       </div>
       {IsPopUp && (
-        <div className="PopUp">
+        <div className="PopUp" ref={refPopUp}>
           <PopUpWrapper refPopUp={refPopUp} />
         </div>
       )}

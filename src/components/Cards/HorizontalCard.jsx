@@ -1,8 +1,8 @@
 import { Button } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MainData } from "../../context/MainContext";
 
-function HorizontalCard({ item }) {
+function HorizontalCard({ item, rentals }) {
   const {
     CurrentPage,
     CurrentUser,
@@ -11,31 +11,59 @@ function HorizontalCard({ item }) {
     ShowEditToCart,
   } = MainData();
 
-  const datelimit = new Date(item && item.datelimit);
+  const datelimit = new Date(
+    (item && item.datelimit) || (rentals && rentals.dateLimit)
+  );
   const today = new Date(formatedDateToday);
+
+  const month = String(datelimit.getMonth() + 1).padStart(2, "0"); // Pad month with leading zero if necessary
+  const day = String(datelimit.getDate()).padStart(2, "0"); // Pad day with leading zero if necessary
+  const year = String(datelimit.getFullYear()).slice(-2); // Get last two digits of the year
+
+  const formattedDate = `${month}/${day}/${year}`;
 
   const differenceOfDate = Math.ceil(
     (datelimit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
+
+  useEffect(() => {
+    console.log(formattedDate);
+  }, []);
 
   return (
     <>
       <div className="HzCardMain">
         <div className="hzCardDescri">
           <div className="HzCardItemInfo">
-            <p className="HzCardEngName">{item && item.name} </p>
+            <p className="HzCardEngName">
+              {item && item.name} {rentals && rentals.engine.EngineName}{" "}
+            </p>
           </div>
 
           <div className="HzCardDetails">
             {CurrentUser.Type == "Admin" ? (
-              <p>Renter: {item && item.renter}</p>
+              <p>
+                Renter:{" "}
+                {(item && item.renter) || (rentals && rentals.user.UserName)}
+              </p>
             ) : (
               <></>
             )}
-            <p>Price: {item && item.initialPrice} Ar</p>
-            <p>Quantity: {item && item.quantity}</p>
+            {CurrentPage == "Cart" ? (
+              <p>
+                {" "}
+                Price: {item && item.initialPrice}
+                {rentals && rentals.engine.Price} Ar
+              </p>
+            ) : (
+              ""
+            )}
             <p>
-              Limit date : {item && item.datelimit}{" "}
+              Quantity:{" "}
+              {(item && item.quantity) || (rentals && rentals.choosen_quantity)}
+            </p>
+            <p>
+              Limit date : {formattedDate}{" "}
               {differenceOfDate > 0
                 ? `( ${differenceOfDate + 1} days left)`
                 : differenceOfDate == 0
@@ -46,7 +74,9 @@ function HorizontalCard({ item }) {
         </div>
 
         {CurrentPage == "Cart" || CurrentPage == "Request" ? (
-          <p className="HzCardPrice">{item && item.price} Ar</p>
+          <p className="HzCardPrice">
+            {(item && item.price) || rentals.total_price} Ar
+          </p>
         ) : (
           <p className="HzCardPrice">'Pending'</p>
         )}

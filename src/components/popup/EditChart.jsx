@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { MainData } from "../../context/MainContext";
 
 function EditChart() {
-
-  const { PopUp, setIsPopUp, formatedDateToday , itemsToCart , cartItems , CurrentUser , editItemCart , editCart} = MainData();
+  const { PopUp, setIsPopUp, formatedDateToday, itemsToCart, editItemCart, editCart } = MainData();
   
   const [quantityToRent, setQuantityToRent] = useState(editItemCart.quantity);
   const [DateLimit, setDateLimit] = useState(editItemCart.datelimit);
@@ -12,68 +11,65 @@ function EditChart() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const datelimit = new Date(DateLimit)
-    const today = new Date(formatedDateToday)
+    const datelimit = new Date(DateLimit);
+    const today = new Date(formatedDateToday);
     
-    const differenceOfDate = Math.ceil((datelimit.getTime() - today.getTime())/(1000*60*60*24))
+    const differenceOfDate = Math.ceil((datelimit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
     const valuesCart = {
       id: editItemCart.id,
-      name : editItemCart.name,
-      quantity : quantityToRent ,
-      initialPrice:editItemCart.initialPrice,
-      price : parseInt(quantityToRent)*parseInt(itemsToCart.price)*parseInt(differenceOfDate+1) ,
-      datelimit: DateLimit ,
-    }
+      name: editItemCart.name,
+      quantity: quantityToRent,
+      initialPrice: editItemCart.initialPrice,
+      price: parseInt(quantityToRent) * parseInt(itemsToCart.price) * parseInt(differenceOfDate + 1),
+      datelimit: DateLimit,
+    };
     
-    editCart(valuesCart.id , valuesCart)
-    setIsPopUp(false)
+    editCart(valuesCart.id, valuesCart);
+    setIsPopUp(false);
   };
 
   return (
-    <>
-          <div className="PopUpContainer AddEngineWrapper">
-        <h1>{PopUp}</h1>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+      <div className="bg-gray-800 text-white p-8 rounded-lg max-w-md w-full">
+        <h1 className="text-2xl font-bold mb-4">{PopUp}</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label>Number to rent :</label>
+            <label className="block">Number to rent:</label>
             <input
               type="text"
-              onChange={(e) => {
-                setQuantityToRent(e.target.value);
-              }}
+              onChange={(e) => setQuantityToRent(e.target.value)}
               value={quantityToRent}
+              className="border rounded-md px-4 py-2 w-full bg-gray-700 text-white"
             />
           </div>
 
           <div>
-            <label>Return date :</label>
+            <label className="block">Return date:</label>
             <input
               type="date"
               min={formatedDateToday}
-              onChange={(e) => {
-                setDateLimit(e.target.value);
-              }}
+              onChange={(e) => setDateLimit(e.target.value)}
               value={DateLimit}
+              className="border rounded-md px-4 py-2 w-full bg-gray-700 text-white"
             />
           </div>
 
-          <div>
+          <div className="flex justify-end">
             <Button
-              type="Button"
-              onClick={() => {
-                setIsPopUp(false);
-              }}
+              type="button"
+              onClick={() => setIsPopUp(false)}
+              className="mr-2 bg-red-600 hover:bg-red-700 text-white"
             >
               Cancel
             </Button>
-            <Button type="submit">Validate</Button>
+            <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white">Validate</Button>
           </div>
         </form>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export default EditChart
+export default EditChart;

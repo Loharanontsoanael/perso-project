@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Button } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import { FaCheck, FaTimes, FaEdit, FaTrash } from "react-icons/fa"; // Import de FaEdit pour l'icône d'édition
 import { MainData } from "../../context/MainContext";
-import { FaCheck, FaTimes } from "react-icons/fa";
 
 function HorizontalCard({ item, rentals }) {
   const {
@@ -12,24 +12,33 @@ function HorizontalCard({ item, rentals }) {
     ShowEditToCart,
   } = MainData();
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
+
+  const handleDelete = () => {
+    if (item) {
+      deletToCart(item.id);
+      toggleDeleteModal();
+    }
+  };
+
   const datelimit = new Date(
     (item && item.datelimit) || (rentals && rentals.dateLimit)
   );
   const today = new Date(formatedDateToday);
 
-  const month = String(datelimit.getMonth() + 1).padStart(2, "0"); // Pad month with leading zero if necessary
-  const day = String(datelimit.getDate()).padStart(2, "0"); // Pad day with leading zero if necessary
-  const year = String(datelimit.getFullYear()).slice(-2); // Get last two digits of the year
+  const month = String(datelimit.getMonth() + 1).padStart(2, "0");
+  const day = String(datelimit.getDate()).padStart(2, "0");
+  const year = String(datelimit.getFullYear()).slice(-2);
 
   const formattedDate = `${month}/${day}/${year}`;
 
   const differenceOfDate = Math.ceil(
     (datelimit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
-
-  useEffect(() => {
-    console.log(formattedDate);
-  }, []);
 
   return (
     <>
@@ -42,7 +51,7 @@ function HorizontalCard({ item, rentals }) {
           </div>
 
           <div className="HzCardDetails">
-            {CurrentUser.Type == "Admin" ? (
+            {CurrentUser.Type === "Admin" ? (
               <p>
                 Renter:{" "}
                 {(item && item.renter) || (rentals && rentals.user.UserName)}
@@ -50,7 +59,7 @@ function HorizontalCard({ item, rentals }) {
             ) : (
               <></>
             )}
-            {CurrentPage == "Cart" ? (
+            {CurrentPage === "Cart" ? (
               <p>
                 {" "}
                 Price: {item && item.initialPrice}
@@ -67,23 +76,23 @@ function HorizontalCard({ item, rentals }) {
               Limit date : {formattedDate}{" "}
               {differenceOfDate > 0
                 ? `( ${differenceOfDate + 1} days left)`
-                : differenceOfDate == 0
+                : differenceOfDate === 0
                 ? "(Today left)"
                 : ""}
             </p>
           </div>
         </div>
 
-        {CurrentPage == "Cart" || CurrentPage == "Request" ? (
+        {CurrentPage === "Cart" || CurrentPage === "Request" ? (
           <p className="HzCardPrice">
             {(item && item.price) || rentals.total_price} Ar
           </p>
         ) : (
           <p className="HzCardPrice">{rentals && rentals.status}</p>
         )}
-        {/* <p className="HzCardPrice">{item && item.price} Ar</p> */}
-        {CurrentUser.Type == "Admin" && CurrentPage == "Request" ? (
-          <div className="HzCardButtons mt-4">
+
+        {CurrentUser.Type === "Admin" && CurrentPage === "Request" ? (
+          <div className="HzCardButtons">
             <div className="flex space-x-4">
               <button
                 aria-label="Accept"
@@ -99,14 +108,14 @@ function HorizontalCard({ item, rentals }) {
               </button>
             </div>
           </div>
-        ) : CurrentUser.Type == "Admin" && CurrentPage == "RentalsAdmin" ? (
+        ) : CurrentUser.Type === "Admin" && CurrentPage === "RentalsAdmin" ? (
           <div className="HzCardButtons">
             <div>
               <Button>Report</Button>
               <Button>Done</Button>
             </div>
           </div>
-        ) : CurrentPage == "Cart" ? (
+        ) : CurrentPage === "Cart" ? (
           <div className="HzCardButtons">
             {CurrentUser.Type !== "Admin" ? (
               <Button
@@ -117,25 +126,44 @@ function HorizontalCard({ item, rentals }) {
                   }
                 }}
               >
-                edit
+                <FaEdit className="w-5 h-5" /> {/* Icône de crayon pour l'édition */}
               </Button>
             ) : (
               <></>
             )}
-            <Button
-              onClick={() => {
-                if (item) {
-                  deletToCart(item.id);
-                }
-              }}
-            >
-              Delete
+            <Button onClick={toggleDeleteModal}>
+              <FaTrash className="w-5 h-5" />
             </Button>
           </div>
         ) : (
           <></>
         )}
       </div>
+
+      {showDeleteModal && (
+        <div className="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="absolute bg-gray-800 rounded-lg text-white w-full max-w-md p-8">
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold">Delete Item</h3>
+              <p>Are you sure you want to delete this item?</p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
+              >
+                Delete
+              </button>
+              <button
+                onClick={toggleDeleteModal}
+                className="px-4 py-2 bg-gray-500 text-white rounded-md"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

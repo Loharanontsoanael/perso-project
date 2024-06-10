@@ -19,6 +19,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "framer-motion": "^11.0.23",
+    "lucide-react": "^0.390.0",
     "mysql2": "^3.9.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

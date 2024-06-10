@@ -8,12 +8,9 @@ function RentNow() {
     setIsPopUp,
     formatedDateToday,
     itemsToCart,
-    addToCart,
-    cartItems,
     CurrentUser,
   } = MainData();
 
-  const [quantityToRent, setQuantityToRent] = useState(1);
   const [DateLimit, setDateLimit] = useState(formatedDateToday);
 
   const handleSubmit = (e) => {
@@ -28,61 +25,64 @@ function RentNow() {
 
     const valuesToRent = {
       renter: CurrentUser.UserName,
-      renter_id:CurrentUser.id,
+      renter_id: CurrentUser.id,
       engine_id: itemsToCart.id,
       engine_name: itemsToCart.name,
-      quantity_to_rent: quantityToRent,
+      quantity_to_rent: 1, // Assuming quantity is always 1 for rental
       initial_price: itemsToCart.price,
       total_price:
-        parseInt(quantityToRent) *
         parseInt(itemsToCart.price) *
         (differenceOfDate + 1),
       date_limit: DateLimit,
     };
 
-    const values_to_Rental = {
-        UserId : valuesToRent.renter_id ,
-        engine_id : valuesToRent.engine_id,
-        dateLimit : valuesToRent.date_limit,
-        choosen_quantity: 1 ,
-    }
+    // Here you can perform any action with valuesToRent, such as sending it to the backend or updating the state
 
-    // addToCart(valuesCart);
-    console.log(values_to_Rental);
     setIsPopUp(false);
   };
 
   return (
     <>
-      <div className="PopUpContainer AddEngineWrapper">
-        <h1>{PopUp}</h1>
+      {PopUp && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-gray-800 p-6 rounded shadow-lg w-1/3 text-white">
+            <h1 className="text-lg font-semibold mb-4">{PopUp}</h1>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Return date :</label>
-            <input
-              type="date"
-              min={formatedDateToday}
-              onChange={(e) => {
-                setDateLimit(e.target.value);
-              }}
-              value={DateLimit}
-            />
-          </div>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-300">Return date :</label>
+                <input
+                  type="date"
+                  min={formatedDateToday}
+                  onChange={(e) => {
+                    setDateLimit(e.target.value);
+                  }}
+                  value={DateLimit}
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 rounded text-white"
+                />
+              </div>
 
-          <div>
-            <Button
-              type="Button"
-              onClick={() => {
-                setIsPopUp(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Validate</Button>
+              <div className="flex justify-end space-x-4">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setIsPopUp(false);
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="px-4 py-2 bg-green-600 text-white rounded"
+                >
+                  Validate
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </div>
+      )}
     </>
   );
 }

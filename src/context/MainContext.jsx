@@ -40,7 +40,8 @@ const MainContext = createContext({
   ShowRentNow:()=>{},
   addRental:()=>{},
   rental:{},
-  setCartItems:()=>{}
+  setCartItems:()=>{},
+  editRental:()=>{},
 });
 
 export const MainProvider = ({ children }) => {
@@ -181,6 +182,7 @@ export const MainProvider = ({ children }) => {
           UserName: "",
           Type: "Guest",
         });
+        setCartItems([])
       })
       .catch((err) => {
         console.log(err);
@@ -266,20 +268,6 @@ export const MainProvider = ({ children }) => {
     });
   }
 
-  const realTime = () => {
-    socket.on("newEngine", (newEngine) => {
-      console.log(newEngine);
-      setEngine((prevEngine) => [...prevEngine, newEngine]);
-    });
-
-    socket.on("updatedEngine", async () => {
-      await getEngine();
-    });
-
-    socket.on('newRental', (newRental)=>{
-      getRentals()
-    })
-  };
 
   const addToCart = (newItems) => {
     const existIndex = cartItems.findIndex((item) => {
@@ -330,6 +318,44 @@ export const MainProvider = ({ children }) => {
       console.log(err);
     })
   }
+
+  const editRental = (id,value)=>{
+    axios
+    .put("http://localhost:8081/editRental/" + id, value)
+    .then((result) => {
+      console.log("good");
+    })
+    .catch((err) => {
+      console.log("Error");
+    });
+  }
+
+  const handeEditRental = (id , updatedRental)=>{
+    setRental((prev)=> prev.map((rental)=>rental.id == updatedRental.id ? updatedRental : rental))
+    console.log(updatedRental);
+    console.log(id);
+  }
+
+  const realTime = () => {
+    socket.on("newEngine", (newEngine) => {
+      console.log(newEngine);
+      setEngine((prevEngine) => [...prevEngine, newEngine]);
+    });
+
+    socket.on("updatedEngine", async () => {
+      await getEngine();
+    });
+
+    socket.on('newRental', (newRental)=>{
+      getRentals()
+    })
+
+    socket.on('updateRental' ,(result)=>{
+      const id = result.id
+      const updatedRental = result.updatedRental
+      handeEditRental(id,updatedRental)
+    })
+  };
 
   useEffect(() => {
     getEngine();
@@ -386,7 +412,8 @@ export const MainProvider = ({ children }) => {
         ShowRentNow,
         addRental,
         rental,
-        setCartItems
+        setCartItems,
+        editRental
       }}
     >
       {children}

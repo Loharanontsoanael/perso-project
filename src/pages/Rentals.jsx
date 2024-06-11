@@ -12,7 +12,7 @@ function Rentals() {
 
   const rentalAdmin =
     rental.length > 0
-      ? rental.filter((item) => item.status !== "Pending")
+      ? rental.filter((item) => item.status == "Renting")
       : false;
 
   const rentalAdminRequest =

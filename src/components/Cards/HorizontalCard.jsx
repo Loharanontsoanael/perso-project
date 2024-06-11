@@ -10,6 +10,7 @@ function HorizontalCard({ item, rentals }) {
     formatedDateToday,
     deletToCart,
     ShowEditToCart,
+    editRental,
   } = MainData();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -24,6 +25,19 @@ function HorizontalCard({ item, rentals }) {
       toggleDeleteModal();
     }
   };
+
+  const handleEdit = (status)=>{
+    const id = rentals.id
+    const value = {
+      user_id: rentals.user.id,
+      engine_id: rentals.engine.id,
+      dateLimit: rentals.dateLimit,
+      choosen_quantity: rentals.choosen_quantity,
+      total_price: rentals.total_price,
+      status: status=='Accept'?'Renting' : 'Denied',
+    }
+    editRental(id,value)
+  }
 
   const datelimit = new Date(
     (item && item.datelimit) || (rentals && rentals.dateLimit)
@@ -97,12 +111,14 @@ function HorizontalCard({ item, rentals }) {
               <button
                 aria-label="Accept"
                 className="p-2 bg-gray-800 text-white rounded-[0.5em] shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
+                onClick={()=>{handleEdit('Accept')}}
               >
                 <FaCheck className="w-5 h-5" />
               </button>
               <button
                 aria-label="Deny"
                 className="p-2 bg-red-500 text-white rounded-[0.5em] shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                onClick={()=>{handleEdit('Deny')}}
               >
                 <FaTimes className="w-5 h-5" />
               </button>

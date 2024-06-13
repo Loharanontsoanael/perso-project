@@ -7,6 +7,7 @@ function EditChart() {
   
   const [quantityToRent, setQuantityToRent] = useState(editItemCart.quantity);
   const [DateLimit, setDateLimit] = useState(editItemCart.datelimit);
+  const maxValue = itemsToCart.stock
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +40,15 @@ function EditChart() {
             <label className="block">Number to rent:</label>
             <input
               type="text"
-              onChange={(e) => setQuantityToRent(e.target.value)}
+              onChange={(e) =>{
+                let newValue = e.target.value
+
+                if(parseInt(newValue)>=parseInt(maxValue)){
+                  setQuantityToRent(maxValue)
+                }else{
+                  setQuantityToRent(newValue)
+                }
+              }}
               value={quantityToRent}
               className="border rounded-md px-4 py-2 w-full bg-gray-700 text-white"
             />

@@ -41,6 +41,14 @@ module.exports = (sequelize,DataTypes)=>{
             validate:{
                 notEmpty: true ,
             }
+        },
+        isBack:{
+            type: DataTypes.BOOLEAN,
+            defaultValue:false,
+            allowNull:false,
+            validate:{
+                notEmpty: true ,
+            }
         }
     })
 
@@ -49,15 +57,11 @@ module.exports = (sequelize,DataTypes)=>{
         Rental.belongsTo(models.User , {
             foreignKey : 'user_id',
             as: 'user',
-            onDelete:'CASCADE',
-            onUpdate:'CASCADE',
         })
 
         Rental.belongsTo(models.Engine , {
             foreignKey: 'engine_id',
             as: 'engine',
-            onDelete:'CASCADE',
-            onUpdate:'CASCADE',
         })
     }
 

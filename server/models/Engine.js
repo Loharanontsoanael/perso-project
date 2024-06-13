@@ -32,8 +32,6 @@ module.exports = (sequelize,DataTypes)=>{
         Engine.hasMany(models.Rental , {
             foreignKey: 'engine_id',
             as:'rental',
-            onDelete:'CASCADE',
-            onUpdate:'CASCADE',
         })
     }
 

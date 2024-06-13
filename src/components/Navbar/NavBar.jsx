@@ -52,8 +52,11 @@ function Navbar() {
 
         <ul className="list-none hidden sm:flex gap-10 flex-row ml-[2rem] my-2  mt-[13.5px]">
           {navLink.map((nav) => (
-            <li key={nav.id}  className={`${"text-white"} hover:text-white text-[18px]  cursor-pointer li-width`}  >
+            <li key={nav.id}  className={`${"text-white"} hover:text-white text-[18px] notifcont  cursor-pointer li-width`}  >
               <NavLink to={nav.direction} onClick={ async()=>{await setCurrentPage(nav.id)}}>{nav.title}</NavLink>
+              {/* {CurrentUser.Type!=='Guest'?
+                nav.title =='Rentals'||nav.title =='Request'?<p className="notif"></p>:''
+              : ''} */}
             </li>
           ))}
         </ul>

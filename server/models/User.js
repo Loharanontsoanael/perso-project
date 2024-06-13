@@ -23,8 +23,6 @@ module.exports = (sequelize , DataTypes)=>{
         User.hasMany(models.Rental,{
             foreignKey:'user_id',
             as:'rental',
-            onDelete:'CASCADE',
-            onUpdate:'CASCADE',
         })
     }
 

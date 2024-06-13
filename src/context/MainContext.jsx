@@ -42,6 +42,11 @@ const MainContext = createContext({
   rental:{},
   setCartItems:()=>{},
   editRental:()=>{},
+  idToDelete:'',
+  ShowDeletePopup:()=>{},
+  IsBack:()=>{},
+  deleteRental:()=>{},
+  reporting:()=>{},
 });
 
 export const MainProvider = ({ children }) => {
@@ -75,6 +80,7 @@ export const MainProvider = ({ children }) => {
   });
   const [editItemCart,setEditItemCart]=useState({})
   const [rental ,setRental]= useState({})
+  const [idToDelete , setIdToDelete]=useState()
 
   const PopUpWrapper = () => {
     setIsPopUp(true);
@@ -123,6 +129,12 @@ export const MainProvider = ({ children }) => {
     else{
       ShowLogin()
     }
+  }
+
+  const ShowDeletePopup = (id)=>{
+    PopUpWrapper()
+    setIdToDelete(id)
+    setPopUp('DeletePopup')
   }
 
   const Login = async (UserName, PassWord) => {
@@ -330,6 +342,37 @@ export const MainProvider = ({ children }) => {
     });
   }
 
+  const IsBack = (id)=>{
+    axios.put('http://localhost:8081/isBack/'+id)
+    .then((result) => {
+      console.log('Good');
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  const reporting =(id)=>{
+    axios.put('http://localhost:8081/reporting/'+id)
+    .then((result) => {
+      console.log('Good');
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
+
+  const deleteRental = (id)=>{
+    axios.delete('http://localhost:8081/deleteRental/'+id)
+    .then((result) => {
+      console.log('Good');
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+
   const handeEditRental = (id , updatedRental)=>{
     setRental((prev)=> prev.map((rental)=>rental.id == updatedRental.id ? updatedRental : rental))
     console.log(updatedRental);
@@ -346,14 +389,16 @@ export const MainProvider = ({ children }) => {
       await getEngine();
     });
 
-    socket.on('newRental', (newRental)=>{
-      getRentals()
+    socket.on('newRental', async(newRental)=>{
+      await getRentals()
     })
 
-    socket.on('updateRental' ,(result)=>{
-      const id = result.id
-      const updatedRental = result.updatedRental
-      handeEditRental(id,updatedRental)
+    socket.on('updateRental' ,async(result)=>{
+      await getRentals()
+    })
+
+    socket.on('deletedRental' , (data)=>{
+      getRentals()
     })
   };
 
@@ -413,7 +458,12 @@ export const MainProvider = ({ children }) => {
         addRental,
         rental,
         setCartItems,
-        editRental
+        editRental,
+        idToDelete,
+        ShowDeletePopup,
+        IsBack,
+        deleteRental,
+        reporting,
       }}
     >
       {children}

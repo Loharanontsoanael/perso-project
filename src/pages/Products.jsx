@@ -18,11 +18,14 @@ function Products() {
   return (
     <>
       <div className='MainProdContainer'>
-        <div className='SearchContainer dark'>
+        {/* <div className='SearchContainer dark'>
           <Search/>
           <p>
-            {/* {CurrentPage.UserName} */}
+            {CurrentPage.UserName}
           </p>
+        </div> */}
+        <div className=' dark ProductsTitle'>
+          Engines :
         </div>
 
         <div className='ProdContentContainer'>
@@ -45,7 +48,7 @@ function Products() {
                   Name={items.EngineName}
                   Price={items.Price}
                   Stock={items.Quantity}
-                  Statut={items.Quantity<=0?'Disabled':'Available'}
+                  Statut={items.Quantity<=0?'Unavailable':'Available'}
                   CurrentPage={CurrentPage}
                   CurrentUser={CurrentUser}
                 />

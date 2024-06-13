@@ -6,7 +6,8 @@ function AddToChart() {
   const { PopUp, setIsPopUp, formatedDateToday, itemsToCart, addToCart, cartItems } = MainData();
 
   const [quantityToRent, setQuantityToRent] = useState(1);
-  const [DateLimit, setDateLimit] = useState(formatedDateToday);
+  const [DateLimit, setDateLimit] = useState(formatedDateToday)
+  const maxvalue= itemsToCart.stock
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +43,14 @@ function AddToChart() {
                 <input
                   type="text"
                   onChange={(e) => {
-                    setQuantityToRent(e.target.value);
+                    let newValue = e.target.value
+
+                    if(parseInt(newValue)>=parseInt(maxvalue)){
+                      setQuantityToRent(maxvalue)
+                    }else{
+                      setQuantityToRent(newValue)
+                    }
+                    // setQuantityToRent(e.target.value);
                   }}
                   value={quantityToRent}
                   className="w-full px-3 py-2 border border-gray-600 bg-gray-700 rounded text-white"

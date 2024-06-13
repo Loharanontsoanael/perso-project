@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
-import { FaCheck, FaTimes, FaEdit, FaTrash } from "react-icons/fa"; // Import de FaEdit pour l'icône d'édition
+import { FaTimes, FaCheck, FaEdit, FaTrash } from "react-icons/fa"; // Import de FaEdit pour l'icône d'édition
 import { MainData } from "../../context/MainContext";
+import { MdEdit } from "react-icons/md";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { GoReport } from "react-icons/go";
+import { BiCheckDouble } from "react-icons/bi";
+// import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { LiaTimesCircleSolid } from "react-icons/lia";
 
 function HorizontalCard({ item, rentals }) {
   const {
@@ -11,6 +18,9 @@ function HorizontalCard({ item, rentals }) {
     deletToCart,
     ShowEditToCart,
     editRental,
+    deleteRental,
+    IsBack,
+    reporting,
   } = MainData();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -26,18 +36,31 @@ function HorizontalCard({ item, rentals }) {
     }
   };
 
-  const handleEdit = (status)=>{
-    const id = rentals.id
+  const handleEdit = (status) => {
+    const id = rentals.id;
     const value = {
       user_id: rentals.user.id,
       engine_id: rentals.engine.id,
       dateLimit: rentals.dateLimit,
       choosen_quantity: rentals.choosen_quantity,
       total_price: rentals.total_price,
-      status: status=='Accept'?'Renting' : 'Denied',
-    }
-    editRental(id,value)
-  }
+      status: status == "Accept" ? "Renting" : "Denied",
+    };
+    editRental(id, value);
+  };
+
+  const handleDeleteRental = () => {
+    deleteRental(rentals.id);
+    console.log(rentals.id);
+  };
+
+  const handleIsback = () => {
+    IsBack(rentals.id);
+  };
+
+  const handleReporting = () => {
+    reporting(rentals.id);
+  };
 
   const datelimit = new Date(
     (item && item.datelimit) || (rentals && rentals.dateLimit)
@@ -53,6 +76,12 @@ function HorizontalCard({ item, rentals }) {
   const differenceOfDate = Math.ceil(
     (datelimit.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
+
+  const diffDate = differenceOfDate >= 0 ? differenceOfDate : -differenceOfDate;
+
+  useEffect(() => {
+    console.log(differenceOfDate);
+  });
 
   return (
     <>
@@ -102,54 +131,112 @@ function HorizontalCard({ item, rentals }) {
             {(item && item.price) || rentals.total_price} Ar
           </p>
         ) : (
-          <p className="HzCardPrice">{rentals && rentals.status}</p>
+          <div className="HzCardPrice">
+            <p>
+              {rentals && rentals.status}
+            </p>
+            <p>
+            {(rentals.reporting && CurrentUser.Type!=='Admin')
+                ? "(Must be returned)"
+                : (differenceOfDate <= 2&& CurrentUser.Type!=='Admin')
+                ? differenceOfDate >= 0
+                  ? `(Should be back in ${differenceOfDate} Day)`
+                  : `(Should have been back ${diffDate} Day ago)`
+                : ""}
+            </p>
+          </div>
         )}
 
         {CurrentUser.Type === "Admin" && CurrentPage === "Request" ? (
           <div className="HzCardButtons">
             <div className="flex space-x-4">
               <button
-                aria-label="Accept"
-                className="p-2 bg-gray-800 text-white rounded-[0.5em] shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
-                onClick={()=>{handleEdit('Accept')}}
+                aria-label="Deny"
+                className="AdminDeny"
+                onClick={() => {
+                  handleEdit("Deny");
+                }}
               >
-                <FaCheck className="w-5 h-5" />
+                <FaTimes />
               </button>
               <button
-                aria-label="Deny"
-                className="p-2 bg-red-500 text-white rounded-[0.5em] shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                onClick={()=>{handleEdit('Deny')}}
+                aria-label="Accept"
+                className="AdminAccept"
+                onClick={() => {
+                  handleEdit("Accept");
+                }}
               >
-                <FaTimes className="w-5 h-5" />
+                <FaCheck />
               </button>
             </div>
           </div>
         ) : CurrentUser.Type === "Admin" && CurrentPage === "RentalsAdmin" ? (
           <div className="HzCardButtons">
-            <div>
-              <Button>Report</Button>
-              <Button>Done</Button>
+            <div className="Reportings">
+              <button
+                className={`${
+                  differenceOfDate <= 0 ? "Report" : "disabledReport"
+                }`}
+                onClick={handleReporting}
+              >
+                <GoReport />
+              </button>
+              <button
+                className={`${
+                  rentals.isBack ? "Returned" : "DisabledReturned"
+                }`}
+                disabled={!rentals.isBack}
+                onClick={() => {
+                  handleDeleteRental();
+                }}
+              >
+                <BiCheckDouble />
+              </button>
             </div>
           </div>
         ) : CurrentPage === "Cart" ? (
           <div className="HzCardButtons">
             {CurrentUser.Type !== "Admin" ? (
-              <Button
-                className="mr-2"
+              <button
+                className="editCart"
                 onClick={() => {
                   if (item) {
                     ShowEditToCart(item);
                   }
                 }}
               >
-                <FaEdit className="w-5 h-5" /> {/* Icône de crayon pour l'édition */}
-              </Button>
+                <MdEdit /> {/* Icône de crayon pour l'édition */}
+              </button>
             ) : (
               <></>
             )}
-            <Button onClick={toggleDeleteModal}>
+            {/* <Button onClick={toggleDeleteModal}>
               <FaTrash className="w-5 h-5" />
-            </Button>
+            </Button> */}
+            <button onClick={toggleDeleteModal} className="DeleteCart">
+              <MdOutlineDeleteOutline />
+            </button>
+          </div>
+        ) : CurrentUser.Type == "Client" &&
+          CurrentPage == "Rentals" &&
+          rentals.status == "Denied" ? (
+          <div className="btnClients">
+            <button
+              className="DeleteDenied"
+              onClick={() => {
+                handleDeleteRental();
+              }}
+            >
+              <LiaTimesCircleSolid />
+            </button>
+          </div>
+        ) : CurrentUser.Type == "Client" &&
+          CurrentPage == "Rentals" &&
+          rentals.status == "Renting" ? (
+          <div className="btnClients">
+            <button className="Returned" onClick={handleIsback}>
+              <BiCheckDouble />
+            </button>
           </div>
         ) : (
           <></>

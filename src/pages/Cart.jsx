@@ -22,8 +22,8 @@ function Cart() {
             choosen_quantity: items.quantity ,
             total_price : items.price
           }
-          // addRental(value)
-          console.log(value);
+          addRental(value)
+          // console.log(value);
         })
         setCartItems([])
       }
